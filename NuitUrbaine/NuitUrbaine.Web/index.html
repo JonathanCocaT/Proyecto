@@ -1932,13 +1932,20 @@ function openModal(id=null) {
   document.getElementById('f-color').value  = p?.ColorPrincipal||'';
   document.getElementById('f-status').value = p?.Estado||'nuevo';
   document.getElementById('f-desc').value   = p?.Descripcion||'';
+  // Siempre resetear campos de imagen antes de poblarlos
   const preview = document.getElementById('img-preview');
+  const imgUrlField = document.getElementById('f-img-url');
+  const imgFileField = document.getElementById('f-img-file');
+  preview.src = '';
+  preview.style.display = 'none';
+  imgUrlField.value = '';
+  if (imgFileField) imgFileField.value = '';
+
   if (p?.ImagenURL) {
+    // Si es una URL normal (no base64 gigante), mostrar la preview directamente
     preview.src = p.ImagenURL;
     preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-    preview.src = '';
+    imgUrlField.value = p.ImagenURL;
   }
   document.getElementById('product-modal').classList.add('open');
 }
@@ -1958,11 +1965,19 @@ function handleImageUpload(input) {
     const preview = document.getElementById('img-preview');
     preview.src = e.target.result;
     preview.style.display = 'block';
-    // En producción: subir al servidor con fetch(FormData) → guardar en /images/productos/
-    // y recibir la URL resultante para guardar en ImagenURL de la BD.
-    // Aquí guardamos el base64 para la demo.
-    document.getElementById('f-img-url').value = e.target.result;
-    showToast('Imagen cargada. Se guardará con el producto.');
+    // IMPORTANTE: La columna ImagenURL en BD es nvarchar(500).
+    // Si tienes un servidor de archivos, sube aquí y guarda solo la ruta.
+    // Para demo local: guardamos base64 solo si cabe; si no, advertimos.
+    const b64 = e.target.result;
+    if (b64.length <= 499) {
+      document.getElementById('f-img-url').value = b64;
+    } else {
+      // Base64 demasiado grande para la columna → guardamos el nombre del archivo como referencia
+      // y sugerimos colocar la imagen en /images/productos/
+      const safeFileName = 'images/productos/' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      document.getElementById('f-img-url').value = safeFileName;
+      showToast(`⚠️ Imagen grande: se guardará la ruta "${safeFileName}". Copia el archivo a esa carpeta en el servidor.`);
+    }
   };
   reader.readAsDataURL(file);
 }
@@ -2030,26 +2045,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── DASHBOARD (datos en vivo de la API) ──
 async function renderDashboard() {
+  // Mostrar estado de carga
+  const kpiGrid = document.getElementById('db-kpi-row');
+  const alertBody = document.getElementById('db-alerta-tbody');
+  if (kpiGrid) kpiGrid.innerHTML = '<div style="color:var(--mid-gray);font-size:.8rem;padding:1rem;">Cargando datos...</div>';
+
   // Recargar inventario para alertas actualizadas
   const [res, invData] = await Promise.all([
     apiFetch('/dashboard/resumen'),
     apiFetch('/inventario'),
   ]);
   if (invData) DB.inventario = normArr(invData);
-  if (!res) return;
-  const r = norm(res); // normalizar para tener PascalCase
-  const kpiGrid = document.getElementById('db-kpi-row');
+  if (!res) {
+    if (kpiGrid) kpiGrid.innerHTML = '<div style="color:#c04040;font-size:.8rem;padding:1rem;">⚠️ No se pudo cargar el dashboard. Verifica que la API esté corriendo en localhost:5050.</div>';
+    return;
+  }
+  // norm() aplica PascalCase. La API de .NET puede devolver camelCase, así que
+  // accedemos con ambas variantes para mayor robustez.
+  const r = norm(res);
+  const get = (key) => {
+    const pascal = key.charAt(0).toUpperCase() + key.slice(1);
+    const camel  = key.charAt(0).toLowerCase() + key.slice(1);
+    return r[pascal] ?? r[camel] ?? 0;
+  };
   if (kpiGrid) {
-    const te = r.TotalEmpresas||0, tp = r.TotalProveedores||0, tb = r.TotalBancos||0;
+    const te = get('TotalEmpresas'), tp = get('TotalProveedores'), tb = get('TotalBancos');
     kpiGrid.innerHTML = `
-      <div class="exec-kpi-card"><div class="exec-kpi-label">Total Productos</div><div class="exec-kpi-val">${r.TotalProductos||0}</div><div class="exec-kpi-delta neu">Activos en catálogo</div></div>
-      <div class="exec-kpi-card ekc-green"><div class="exec-kpi-label">Unidades en Stock</div><div class="exec-kpi-val">${(r.UnidadesEnInventario||0).toLocaleString('es-CO')}</div><div class="exec-kpi-delta up">En inventario</div></div>
-      <div class="exec-kpi-card ekc-gold"><div class="exec-kpi-label">Valor Inventario</div><div class="exec-kpi-val">$${((r.ValorTotalInventario||0)/1000000).toFixed(1)}M</div><div class="exec-kpi-delta neu">COP estimado</div></div>
-      <div class="exec-kpi-card ekc-blue"><div class="exec-kpi-label">Empleados Activos</div><div class="exec-kpi-val">${r.TotalEmpleados||0}</div><div class="exec-kpi-delta neu">Nómina: $${((r.NominaMensualTotal||0)/1000000).toFixed(1)}M/mes</div></div>
+      <div class="exec-kpi-card"><div class="exec-kpi-label">Total Productos</div><div class="exec-kpi-val">${get('TotalProductos')}</div><div class="exec-kpi-delta neu">Activos en catálogo</div></div>
+      <div class="exec-kpi-card ekc-green"><div class="exec-kpi-label">Unidades en Stock</div><div class="exec-kpi-val">${Number(get('UnidadesEnInventario')).toLocaleString('es-CO')}</div><div class="exec-kpi-delta up">En inventario</div></div>
+      <div class="exec-kpi-card ekc-gold"><div class="exec-kpi-label">Valor Inventario</div><div class="exec-kpi-val">$${(Number(get('ValorTotalInventario'))/1000000).toFixed(1)}M</div><div class="exec-kpi-delta neu">COP estimado</div></div>
+      <div class="exec-kpi-card ekc-blue"><div class="exec-kpi-label">Empleados Activos</div><div class="exec-kpi-val">${get('TotalEmpleados')}</div><div class="exec-kpi-delta neu">Nómina: $${(Number(get('NominaMensualTotal'))/1000000).toFixed(1)}M/mes</div></div>
       <div class="exec-kpi-card ekc-red"><div class="exec-kpi-label">Terceros</div><div class="exec-kpi-val">${te+tp+tb}</div><div class="exec-kpi-delta neu">${te} emp · ${tp} prov · ${tb} bancos</div></div>
     `;
   }
-  const alertBody = document.getElementById('db-alerta-tbody');
   if (alertBody) {
     // Alertas: stock actual <= mínimo
     const alertas = DB.inventario.filter(i => (i.StockDisponible||0) <= (i.StockMinimo||10));

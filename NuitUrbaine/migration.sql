@@ -14,7 +14,18 @@ IF NOT EXISTS (
   SELECT 1 FROM sys.columns
   WHERE object_id = OBJECT_ID('dbo.BASE_DATOS_PRODUCTOS') AND name = 'ImagenURL'
 )
-  ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ADD ImagenURL nvarchar(500) NULL;
+  ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ADD ImagenURL nvarchar(MAX) NULL;
+ELSE
+BEGIN
+  -- Ampliar la columna si ya existe con nvarchar(500) para soportar base64 o URLs largas
+  IF EXISTS (
+    SELECT 1 FROM sys.columns
+    WHERE object_id = OBJECT_ID('dbo.BASE_DATOS_PRODUCTOS') AND name = 'ImagenURL'
+      AND max_length < 0 -- max_length = -1 significa nvarchar(MAX), cualquier otro es limitado
+  ) BEGIN PRINT 'ImagenURL ya es nvarchar(MAX).'; END
+  ELSE
+    ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ALTER COLUMN ImagenURL nvarchar(MAX) NULL;
+END
 
 IF NOT EXISTS (
   SELECT 1 FROM sys.columns
@@ -35,7 +46,16 @@ IF NOT EXISTS (
   SELECT 1 FROM sys.columns
   WHERE object_id = OBJECT_ID('dbo.BASE_DATOS_EMPLEADOS') AND name = 'FotoURL'
 )
-  ALTER TABLE dbo.BASE_DATOS_EMPLEADOS ADD FotoURL nvarchar(500) NULL;
+  ALTER TABLE dbo.BASE_DATOS_EMPLEADOS ADD FotoURL nvarchar(MAX) NULL;
+ELSE
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM sys.columns
+    WHERE object_id = OBJECT_ID('dbo.BASE_DATOS_EMPLEADOS') AND name = 'FotoURL'
+      AND max_length = -1
+  )
+    ALTER TABLE dbo.BASE_DATOS_EMPLEADOS ALTER COLUMN FotoURL nvarchar(MAX) NULL;
+END
 
 -- ─────────────────────────────────────────────
 -- 3. Tabla de usuarios para login del sistema
