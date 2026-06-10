@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nuit Urbaine — Viste con Estilo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #f0ece4;
+  --warm-white: #faf8f5;
+  --charcoal: #1a1a1a;
+  --mid-gray: #5a5a5a;
+  --light-gray: #c8c4bc;
+  --accent: #8b7355;
+  --accent-light: #c4a882;
+  --dark-accent: #3d3028;
+  --surface: #e8e3da;
+  --card: #f5f2ec;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--charcoal);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(26,26,26,0.96);
+  backdrop-filter: blur(12px);
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 3rem;
+  height: 70px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight:600; letter-spacing:.15em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+.nav-logo span { color: var(--accent-light); }
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a {
+  font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
+  color: var(--light-gray); text-decoration:none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--accent-light); }
+.nav-cta {
+  background: var(--accent); color: var(--cream);
+  border:none; padding:.55rem 1.4rem;
+  font-family:'DM Sans',sans-serif; font-size:.75rem;
+  letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--accent-light); color: var(--dark-accent); }
+
+/* ── PAGE MANAGER ── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ══════════════════════════════════
+   PUBLIC SITE
+══════════════════════════════════ */
+
+/* HERO */
+#hero {
+  min-height:100vh;
+  background: var(--charcoal);
+  display:flex; align-items:center;
+  position:relative; overflow:hidden;
+  padding-top:70px;
+}
+.hero-noise {
+  position:absolute; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content {
+  position:relative; z-index:2;
+  max-width:1200px; margin:0 auto; padding:0 3rem;
+  display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;
+}
+.hero-tag {
+  font-size:.7rem; letter-spacing:.25em; text-transform:uppercase;
+  color: var(--accent-light); margin-bottom:1.5rem;
+  display:flex; align-items:center; gap:.8rem;
+}
+.hero-tag::before { content:''; display:block; width:2rem; height:1px; background:var(--accent-light); }
+.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,6vw,5.5rem); font-weight:300; line-height:1.05;
+  color: var(--cream); margin-bottom:1.8rem;
+}
+.hero-title em { font-style:italic; color:var(--accent-light); }
+.hero-sub {
+  font-size:.95rem; line-height:1.7; color:var(--light-gray);
+  max-width:30rem; margin-bottom:2.5rem;
+}
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+.btn-primary {
+  background:var(--accent); color:var(--cream);
+  border:none; padding:.9rem 2.2rem;
+  font-family:'DM Sans',sans-serif; font-size:.78rem;
+  letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+  transition: all .25s;
+}
+.btn-primary:hover { background:var(--accent-light); color:var(--dark-accent); }
+.btn-ghost {
+  background:transparent; color:var(--cream);
+  border:1px solid rgba(255,255,255,.25); padding:.9rem 2.2rem;
+  font-family:'DM Sans',sans-serif; font-size:.78rem;
+  letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+  transition: all .25s;
+}
+.btn-ghost:hover { border-color:var(--accent-light); color:var(--accent-light); }
+.hero-visual {
+  display:flex; flex-direction:column; gap:1.5rem; align-items:flex-end;
+}
+.hero-stat-card {
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(8px); padding:1.5rem 2rem;
+  text-align:center; min-width:160px;
+}
+.hero-stat-num {
+  font-family:'Cormorant Garamond',serif; font-size:2.8rem;
+  font-weight:300; color:var(--accent-light); line-height:1;
+}
+.hero-stat-label { font-size:.68rem; letter-spacing:.15em; color:var(--light-gray); text-transform:uppercase; margin-top:.4rem; }
+.hero-badge {
+  background:var(--accent); padding:1rem 1.5rem;
+  font-size:.72rem; letter-spacing:.12em; color:var(--cream); text-transform:uppercase;
+  text-align:center; min-width:160px;
+}
+
+/* SECTION WRAPPER */
+section { padding:6rem 3rem; max-width:1200px; margin:0 auto; }
+
+/* QUIÉNES SOMOS */
+#quienes {
+  display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;
+  padding:6rem 3rem;
+  max-width:1200px; margin:0 auto;
+}
+.section-tag {
+  font-size:.68rem; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:1rem;
+  display:flex; align-items:center; gap:.8rem;
+}
+.section-tag::before { content:''; display:block; width:1.5rem; height:1px; background:var(--accent); }
+.section-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,4vw,3.5rem); font-weight:300; line-height:1.1;
+  margin-bottom:1.5rem;
+}
+.section-title em { font-style:italic; color:var(--accent); }
+.section-body { font-size:.92rem; line-height:1.85; color:var(--mid-gray); margin-bottom:1.5rem; }
+.values-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+.value-chip {
+  background:var(--card); border:1px solid var(--surface);
+  padding:1rem 1.2rem;
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--mid-gray);
+  display:flex; align-items:center; gap:.6rem;
+}
+.value-chip::before {
+  content:''; display:block; width:6px; height:6px;
+  background:var(--accent); border-radius:50%; flex-shrink:0;
+}
+.quienes-visual {
+  background:var(--surface); padding:3rem;
+  display:flex; flex-direction:column; gap:1.5rem;
+  position:relative;
+}
+.quienes-visual::before {
+  content:''; position:absolute; top:-1rem; right:-1rem;
+  width:100%; height:100%; border:1px solid var(--accent-light);
+  z-index:-1;
+}
+.impact-row { display:flex; justify-content:space-between; }
+.impact-item { text-align:center; }
+.impact-num {
+  font-family:'Cormorant Garamond',serif; font-size:2.5rem;
+  font-weight:300; color:var(--dark-accent); line-height:1;
+}
+.impact-label { font-size:.65rem; letter-spacing:.12em; color:var(--mid-gray); text-transform:uppercase; margin-top:.3rem; }
+.divider-line { width:100%; height:1px; background:var(--light-gray); }
+.quote-block {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem; font-style:italic; line-height:1.5;
+  color:var(--dark-accent);
+}
+.quote-attr { font-family:'DM Sans',sans-serif; font-size:.72rem; letter-spacing:.1em; color:var(--mid-gray); margin-top:.8rem; }
+
+/* CATÁLOGO */
+#catalogo-section {
+  background:var(--cream); padding:6rem 0;
+}
+.catalog-inner { max-width:1200px; margin:0 auto; padding:0 3rem; }
+.catalog-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; }
+.catalog-filters { display:flex; gap:.5rem; flex-wrap:wrap; }
+.filter-btn {
+  background:transparent; border:1px solid var(--light-gray);
+  padding:.5rem 1.2rem; font-family:'DM Sans',sans-serif;
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+  cursor:pointer; transition:all .2s; color:var(--mid-gray);
+}
+.filter-btn.active, .filter-btn:hover {
+  background:var(--charcoal); border-color:var(--charcoal); color:var(--cream);
+}
+.products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.product-card {
+  background:var(--warm-white); cursor:pointer;
+  transition: transform .25s, box-shadow .25s;
+  position:relative; overflow:hidden;
+}
+.product-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,.1); }
+.product-img {
+  height:280px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:5rem; position:relative; overflow:hidden;
+}
+.product-badge {
+  position:absolute; top:.8rem; left:.8rem;
+  background:var(--accent); color:var(--cream);
+  font-size:.6rem; letter-spacing:.1em; padding:.3rem .7rem; text-transform:uppercase;
+}
+.product-info { padding:1.2rem 1.4rem 1.5rem; }
+.product-cat { font-size:.62rem; letter-spacing:.15em; color:var(--accent); text-transform:uppercase; margin-bottom:.4rem; }
+.product-name { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; margin-bottom:.3rem; }
+.product-desc { font-size:.78rem; color:var(--mid-gray); line-height:1.5; margin-bottom:.8rem; }
+.product-footer { display:flex; justify-content:space-between; align-items:center; }
+.product-price { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--dark-accent); }
+.add-btn {
+  background:var(--charcoal); color:var(--cream);
+  border:none; padding:.5rem 1rem;
+  font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer;
+  transition:background .2s;
+}
+.add-btn:hover { background:var(--accent); }
+
+/* FOOTER */
+footer {
+  background:var(--charcoal); color:var(--light-gray);
+  padding:4rem 3rem 2rem;
+}
+.footer-inner { max-width:1200px; margin:0 auto; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+.footer-brand-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem; font-weight:300; color:var(--cream); margin-bottom:.8rem;
+}
+.footer-tagline { font-size:.8rem; color:var(--light-gray); line-height:1.6; max-width:22rem; }
+.footer-col-title { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent-light); margin-bottom:1.2rem; }
+.footer-links { list-style:none; display:flex; flex-direction:column; gap:.6rem; }
+.footer-links a { font-size:.82rem; color:var(--light-gray); text-decoration:none; transition:color .2s; }
+.footer-links a:hover { color:var(--cream); }
+.footer-bottom { border-top:1px solid rgba(255,255,255,.08); padding-top:1.5rem; display:flex; justify-content:space-between; font-size:.72rem; }
+
+/* ══════════════════════════════════
+   LOGIN PAGE
+══════════════════════════════════ */
+#login-page {
+  min-height:100vh;
+  background:var(--charcoal);
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.login-box {
+  background:var(--dark-accent); width:100%; max-width:420px;
+  padding:3rem; position:relative;
+}
+.login-box::before {
+  content:''; position:absolute; top:-6px; left:-6px; right:6px; bottom:6px;
+  border:1px solid rgba(196,168,130,.2);
+  pointer-events:none;
+}
+.login-logo {
+  text-align:center; margin-bottom:2.5rem;
+}
+.login-logo-text {
+  font-family:'Cormorant Garamond',serif; font-size:2rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--cream);
+}
+.login-logo-sub { font-size:.62rem; letter-spacing:.3em; color:var(--accent-light); text-transform:uppercase; }
+.login-divider { width:2rem; height:1px; background:var(--accent); margin:1rem auto; }
+.login-title { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--light-gray); text-align:center; margin-bottom:2rem; }
+.login-field { margin-bottom:1.2rem; }
+.login-field label { display:block; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--accent-light); margin-bottom:.5rem; }
+.login-field input {
+  width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  padding:.85rem 1rem; color:var(--cream);
+  font-family:'DM Sans',sans-serif; font-size:.88rem; outline:none;
+  transition: border-color .2s;
+}
+.login-field input:focus { border-color:var(--accent-light); }
+.login-field input::placeholder { color:rgba(255,255,255,.25); }
+.login-btn {
+  width:100%; background:var(--accent); color:var(--cream); border:none;
+  padding:1rem; font-family:'DM Sans',sans-serif;
+  font-size:.75rem; letter-spacing:.15em; text-transform:uppercase;
+  cursor:pointer; transition:background .2s; margin-top:.5rem;
+}
+.login-btn:hover { background:var(--accent-light); color:var(--dark-accent); }
+.login-error { background:rgba(180,50,50,.2); border:1px solid rgba(180,50,50,.4); color:#e88; padding:.7rem 1rem; font-size:.78rem; margin-bottom:1rem; display:none; }
+
+/* ══════════════════════════════════
+   ADMIN — NUEVO LAYOUT
+   sidebar colapsable · topbar con tabs · main scroll libre
+══════════════════════════════════ */
+
+/* Wrapper principal */
+#admin-page {
+  display:none;
+  position:fixed; inset:0;
+  background:var(--cream);
+  z-index:200;
+}
+#admin-page.active { display:flex; flex-direction:column; }
+
+/* ── TOPBAR ADMIN (fija arriba) ── */
+.admin-topbar-bar {
+  height:54px; flex-shrink:0;
+  background:var(--charcoal);
+  display:flex; align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  z-index:10; position:relative;
+}
+.admin-topbar-left {
+  display:flex; align-items:center; gap:0;
+  height:100%;
+}
+/* Hamburger toggle */
+.admin-hamburger {
+  width:54px; height:54px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  cursor:pointer; flex-shrink:0; border-right:1px solid rgba(255,255,255,.07);
+  transition:background .2s;
+}
+.admin-hamburger:hover { background:rgba(255,255,255,.05); }
+.admin-hamburger span {
+  display:block; width:18px; height:1.5px;
+  background:var(--light-gray); transition:all .25s;
+}
+#admin-page.sidebar-open .admin-hamburger span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+#admin-page.sidebar-open .admin-hamburger span:nth-child(2) { opacity:0; transform:scaleX(0); }
+#admin-page.sidebar-open .admin-hamburger span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+.admin-brand {
+  padding:0 1.4rem; font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem; letter-spacing:.12em; color:var(--cream);
+  border-right:1px solid rgba(255,255,255,.07); height:100%;
+  display:flex; align-items:center; gap:.6rem;
+}
+.admin-brand-sub { font-size:.55rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent-light); }
+
+/* Tabs de navegación en la topbar */
+.admin-tabs {
+  display:flex; align-items:center; height:100%; margin-left:.5rem;
+}
+.admin-tab {
+  display:flex; align-items:center; gap:.5rem; height:100%;
+  padding:0 1.4rem; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--light-gray); cursor:pointer; border-bottom:2px solid transparent;
+  transition:all .2s; white-space:nowrap;
+}
+.admin-tab:hover { color:var(--cream); background:rgba(255,255,255,.04); }
+.admin-tab.active { color:var(--accent-light); border-bottom-color:var(--accent); background:rgba(196,168,130,.06); }
+.admin-tab-icon { font-size:.9rem; }
+
+/* Right side of topbar */
+.admin-topbar-right {
+  margin-left:auto; display:flex; align-items:center; gap:0; height:100%;
+}
+.admin-user-pill {
+  display:flex; align-items:center; gap:.6rem;
+  padding:0 1.4rem; font-size:.7rem; color:var(--light-gray);
+  border-left:1px solid rgba(255,255,255,.07); height:100%;
+}
+.admin-user-dot { width:7px; height:7px; border-radius:50%; background:#4a9e6a; }
+
+/* ── BODY DEL ADMIN (sidebar + main) ── */
+.admin-body {
+  flex:1; display:flex; overflow:hidden; position:relative;
+}
+
+/* ── SIDEBAR COLAPSABLE ── */
+.admin-sidebar {
+  width:240px; background:var(--charcoal); flex-shrink:0;
+  display:flex; flex-direction:column;
+  overflow-y:auto; overflow-x:hidden;
+  transition:width .28s ease, opacity .25s ease;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+/* Colapsado */
+#admin-page:not(.sidebar-open) .admin-sidebar {
+  width:0; opacity:0; pointer-events:none;
+}
+#admin-page.sidebar-open .admin-sidebar {
+  width:240px; opacity:1; pointer-events:all;
+}
+
+.admin-sidebar-section {
+  padding:.6rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.admin-sidebar-label {
+  padding:.5rem 1.2rem .3rem;
+  font-size:.55rem; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.22);
+}
+.admin-nav-item {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.8rem 1.2rem; font-size:.78rem; letter-spacing:.05em;
+  color:var(--light-gray); cursor:pointer; transition:all .18s;
+  border-left:2px solid transparent; white-space:nowrap;
+}
+.admin-nav-item:hover { color:var(--cream); background:rgba(255,255,255,.04); border-left-color:rgba(196,168,130,.3); }
+.admin-nav-item.active { color:var(--accent-light); border-left-color:var(--accent); background:rgba(196,168,130,.07); }
+.admin-nav-icon { font-size:.95rem; width:1.1rem; text-align:center; flex-shrink:0; }
+
+/* Dropdown ir al sitio en sidebar */
+.admin-site-menu { border-top:1px solid rgba(255,255,255,.05); }
+.admin-site-trigger {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.9rem 1.2rem; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
+  color:rgba(255,255,255,.4); cursor:pointer; transition:color .2s; user-select:none;
+  white-space:nowrap;
+}
+.admin-site-trigger:hover { color:var(--accent-light); }
+.site-menu-arrow { transition:transform .22s; display:inline-block; font-size:.6rem; }
+.admin-site-trigger.open .site-menu-arrow { transform:rotate(180deg); }
+.admin-site-dropdown { display:none; background:rgba(0,0,0,.2); }
+.admin-site-dropdown.open { display:block; }
+.site-drop-item {
+  display:flex; align-items:center; gap:.65rem;
+  padding:.65rem 1.2rem .65rem 1.6rem;
+  font-size:.73rem; color:var(--light-gray); cursor:pointer;
+  transition:all .16s; letter-spacing:.03em; white-space:nowrap;
+}
+.site-drop-item:hover { color:var(--accent-light); background:rgba(196,168,130,.07); padding-left:1.9rem; }
+.site-drop-icon { font-size:.82rem; width:.9rem; text-align:center; opacity:.65; }
+
+/* ── MAIN SCROLLEABLE ── */
+.admin-main {
+  flex:1; padding:2rem 2.5rem 4rem;
+  overflow-y:auto; overflow-x:hidden;
+  min-width:0;
+  /* scroll suave */
+  scroll-behavior:smooth;
+}
+
+.admin-topbar {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:2rem;
+}
+.admin-page-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; }
+.admin-page-sub { font-size:.78rem; color:var(--mid-gray); margin-top:.2rem; }
+
+/* CRUD TABLE */
+.crud-controls { display:flex; gap:1rem; margin-bottom:1.5rem; align-items:center; flex-wrap:wrap; }
+.crud-search {
+  flex:1; min-width:200px;
+  background:var(--warm-white); border:1px solid var(--light-gray);
+  padding:.7rem 1rem; font-family:'DM Sans',sans-serif;
+  font-size:.85rem; outline:none;
+}
+.crud-search:focus { border-color:var(--accent); }
+.btn-add {
+  background:var(--accent); color:var(--cream); border:none;
+  padding:.7rem 1.5rem; font-family:'DM Sans',sans-serif;
+  font-size:.75rem; letter-spacing:.08em; text-transform:uppercase;
+  cursor:pointer; white-space:nowrap; transition:background .2s;
+}
+.btn-add:hover { background:var(--dark-accent); }
+.crud-table { width:100%; border-collapse:collapse; background:var(--warm-white); }
+.crud-table th {
+  text-align:left; padding:.9rem 1rem;
+  font-size:.65rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--mid-gray); border-bottom:2px solid var(--surface);
+  font-weight:500;
+}
+.crud-table td {
+  padding:.9rem 1rem; font-size:.82rem; border-bottom:1px solid var(--surface);
+  vertical-align:middle;
+}
+.crud-table tr:hover td { background:var(--cream); }
+.product-emoji-cell { font-size:1.5rem; text-align:center; }
+.tag {
+  display:inline-block; padding:.25rem .7rem;
+  font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; border-radius:2px;
+}
+.tag-cat { background:rgba(139,115,85,.12); color:var(--accent); }
+.tag-nuevo { background:rgba(60,160,80,.12); color:#3a9050; }
+.tag-destacado { background:rgba(200,140,50,.12); color:#b8760a; }
+.tag-agotado { background:rgba(180,60,60,.1); color:#c04040; }
+.action-btn {
+  background:transparent; border:1px solid var(--light-gray);
+  padding:.3rem .8rem; font-size:.68rem; letter-spacing:.06em;
+  cursor:pointer; transition:all .2s; color:var(--mid-gray); margin-right:.3rem;
+}
+.action-btn:hover { border-color:var(--charcoal); color:var(--charcoal); }
+.action-btn.danger:hover { border-color:#c04040; color:#c04040; }
+.crud-empty { text-align:center; padding:3rem; color:var(--light-gray); font-size:.88rem; }
+
+/* MODAL */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.65);
+  z-index:1000; display:none; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--warm-white); max-width:560px; width:100%;
+  position:relative; max-height:90vh; overflow-y:auto;
+}
+.modal-header {
+  background:var(--charcoal); padding:1.5rem 2rem;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.modal-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--cream); }
+.modal-close {
+  background:transparent; border:none; color:var(--light-gray);
+  font-size:1.4rem; cursor:pointer; transition:color .2s; line-height:1;
+}
+.modal-close:hover { color:var(--cream); }
+.modal-body { padding:2rem; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-field { margin-bottom:1.3rem; }
+.form-field.full { grid-column:1/-1; }
+.form-field label { display:block; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.5rem; }
+.form-field input, .form-field select, .form-field textarea {
+  width:100%; background:var(--cream); border:1px solid var(--light-gray);
+  padding:.75rem .9rem; font-family:'DM Sans',sans-serif;
+  font-size:.85rem; outline:none; color:var(--charcoal);
+  transition:border-color .2s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color:var(--accent); }
+.form-field textarea { min-height:80px; resize:vertical; }
+.modal-footer { padding:1.2rem 2rem; border-top:1px solid var(--surface); display:flex; gap:.8rem; justify-content:flex-end; }
+.btn-cancel {
+  background:transparent; border:1px solid var(--light-gray); color:var(--mid-gray);
+  padding:.65rem 1.4rem; font-family:'DM Sans',sans-serif; font-size:.75rem;
+  letter-spacing:.08em; text-transform:uppercase; cursor:pointer; transition:all .2s;
+}
+.btn-cancel:hover { border-color:var(--charcoal); color:var(--charcoal); }
+.btn-save {
+  background:var(--accent); color:var(--cream); border:none;
+  padding:.65rem 1.8rem; font-family:'DM Sans',sans-serif;
+  font-size:.75rem; letter-spacing:.08em; text-transform:uppercase;
+  cursor:pointer; transition:background .2s;
+}
+.btn-save:hover { background:var(--dark-accent); }
+
+/* TOAST */
+.toast {
+  position:fixed; bottom:2rem; right:2rem; z-index:9999;
+  background:var(--charcoal); color:var(--cream);
+  padding:.9rem 1.5rem; font-size:.8rem; letter-spacing:.06em;
+  transform:translateY(5rem); opacity:0; transition:all .3s;
+  pointer-events:none; border-left:3px solid var(--accent);
+}
+.toast.show { transform:translateY(0); opacity:1; }
+
+/* ADMIN STATS (legacy — kept for backward compat) */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+.stat-card {
+  background:var(--warm-white); padding:1.3rem 1.5rem;
+  border:1px solid var(--surface); border-left:3px solid var(--accent);
+}
+.stat-label { font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.4rem; }
+.stat-value { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:var(--dark-accent); }
+.stat-sub { font-size:.68rem; color:var(--accent); margin-top:.2rem; }
+
+/* ── EXECUTIVE DASHBOARD ── */
+.exec-dash { color:var(--charcoal); padding-bottom:2rem; min-width:0; }
+.exec-topbar {
+  background:var(--charcoal); padding:.85rem 1.2rem;
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:1.5rem; border-radius:2px; flex-wrap:wrap; gap:.5rem;
+}
+.exec-topbar-left { display:flex; align-items:center; gap:.9rem; }
+.exec-logo { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--cream); letter-spacing:.1em; font-style:italic; }
+.exec-logo span { color:var(--accent-light); }
+.exec-badge { font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; color:var(--accent-light); border:1px solid rgba(196,168,130,.3); padding:.22rem .65rem; }
+.exec-topbar-right { display:flex; align-items:center; gap:.9rem; }
+.exec-date { font-size:.68rem; color:rgba(240,236,228,.4); letter-spacing:.08em; }
+.exec-user { font-size:.7rem; color:var(--accent-light); letter-spacing:.06em; }
+.exec-sec-row { display:flex; align-items:flex-end; justify-content:space-between; margin:0 0 1rem; }
+.exec-sec-tag { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:.5rem; margin-bottom:.28rem; }
+.exec-sec-tag::before { content:''; display:block; width:1rem; height:1px; background:var(--accent); }
+.exec-sec-title { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:400; color:var(--dark-accent); }
+.exec-sec-sub { font-size:.68rem; color:var(--mid-gray); letter-spacing:.06em; }
+.exec-period { font-size:.62rem; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--surface); padding:.28rem .75rem; background:var(--card); }
+.exec-kpi-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--surface); margin-bottom:1.5rem; border:1px solid var(--surface); min-width:0; }
+.exec-kpi-card { background:var(--warm-white); padding:.95rem 1.1rem; position:relative; overflow:hidden; min-width:0; }
+.exec-kpi-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--accent); }
+.exec-kpi-card.ekc-green::before { background:#4a9e6a; }
+.exec-kpi-card.ekc-red::before { background:#c0503c; }
+.exec-kpi-card.ekc-blue::before { background:#4a7fb5; }
+.exec-kpi-card.ekc-gold::before { background:var(--accent-light); }
+.exec-kpi-label { font-size:.56rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.35rem; }
+.exec-kpi-val { font-family:'Cormorant Garamond',serif; font-size:1.85rem; font-weight:300; color:var(--dark-accent); line-height:1; margin-bottom:.25rem; }
+.exec-kpi-delta { font-size:.63rem; display:flex; align-items:center; gap:.28rem; }
+.exec-kpi-delta.up { color:#4a9e6a; }
+.exec-kpi-delta.down { color:#c0503c; }
+.exec-kpi-delta.neu { color:var(--mid-gray); }
+.exec-charts-row { display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1.5rem; min-width:0; }
+.exec-chart-panel { background:var(--warm-white); border:1px solid var(--surface); padding:1.1rem; min-width:0; overflow:hidden; }
+.exec-chart-title { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.1rem; }
+.exec-chart-val { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--dark-accent); margin-bottom:.7rem; }
+.exec-legend { display:flex; gap:.9rem; flex-wrap:wrap; margin-top:.45rem; }
+.exec-leg-item { display:flex; align-items:center; gap:.32rem; font-size:.63rem; color:var(--mid-gray); }
+.exec-leg-sq { width:9px; height:9px; border-radius:2px; }
+.exec-tables-row { display:grid; grid-template-columns:1.4fr 1fr; gap:1rem; margin-bottom:1.5rem; min-width:0; }
+.exec-table-panel { background:var(--warm-white); border:1px solid var(--surface); min-width:0; overflow:hidden; }
+.exec-table-hdr { padding:.75rem 1rem; border-bottom:1px solid var(--surface); display:flex; align-items:center; justify-content:space-between; }
+.exec-table-hdr-title { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); }
+.exec-tbl { width:100%; border-collapse:collapse; font-size:.74rem; }
+.exec-tbl th { padding:.5rem .9rem; font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; color:var(--cream); background:var(--charcoal); font-weight:500; text-align:left; }
+.exec-tbl td { padding:.5rem .9rem; border-bottom:1px solid var(--surface); color:var(--charcoal); }
+.exec-tbl tr:last-child td { border-bottom:none; }
+.exec-tbl tr:nth-child(even) td { background:var(--card); }
+.exec-badge-tag { display:inline-block; padding:.16rem .5rem; font-size:.56rem; letter-spacing:.08em; text-transform:uppercase; font-weight:500; }
+.exec-badge-tag.nuevo { background:#e8f4ec; color:#2e6b42; }
+.exec-badge-tag.dest { background:#f5f0e8; color:#7a5a2e; }
+.exec-badge-tag.agotado { background:#faeae8; color:#8b3220; }
+.exec-bottom-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; min-width:0; }
+.exec-mini-panel { background:var(--warm-white); border:1px solid var(--surface); padding:1.1rem; min-width:0; overflow:hidden; }
+.exec-mini-title { font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.75rem; }
+.exec-progress-item { margin-bottom:.62rem; }
+.exec-prog-row { display:flex; justify-content:space-between; font-size:.68rem; color:var(--charcoal); margin-bottom:.22rem; }
+.exec-prog-bar { height:3px; background:var(--surface); }
+.exec-prog-fill { height:3px; background:var(--accent); }
+.exec-activity-item { display:flex; align-items:flex-start; gap:.65rem; margin-bottom:.65rem; font-size:.7rem; }
+.exec-act-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); margin-top:.22rem; flex-shrink:0; }
+.exec-act-dot.g { background:#4a9e6a; }
+.exec-act-dot.b { background:#4a7fb5; }
+.exec-act-dot.r { background:#c0503c; }
+.exec-act-text { color:var(--charcoal); line-height:1.4; }
+.exec-act-time { color:var(--mid-gray); font-size:.61rem; margin-top:.08rem; }
+.exec-mini-kpi-row { display:grid; grid-template-columns:1fr 1fr; gap:.55rem; margin-top:.15rem; }
+.exec-mini-kpi { background:var(--card); border:1px solid var(--surface); padding:.65rem .75rem; }
+.exec-mk-lbl { font-size:.56rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mid-gray); margin-bottom:.18rem; }
+.exec-mk-val { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--dark-accent); }
+.exec-mk-sub { font-size:.6rem; color:var(--accent); margin-top:.08rem; }
+@media (max-width:900px) {
+  .exec-kpi-grid { grid-template-columns:repeat(2,1fr); }
+  .exec-charts-row, .exec-tables-row, .exec-bottom-row { grid-template-columns:1fr; }
+}
+/* Admin page on smaller screens */
+@media (max-width:1100px) {
+  .exec-kpi-grid { grid-template-columns:repeat(3,1fr); }
+}
+
+/* CONFIRM MODAL */
+.confirm-overlay { position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:2000; display:none; align-items:center; justify-content:center; }
+.confirm-overlay.open { display:flex; }
+.confirm-box { background:var(--warm-white); padding:2.5rem; max-width:380px; width:100%; text-align:center; }
+.confirm-icon { font-size:2.5rem; margin-bottom:1rem; }
+.confirm-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; margin-bottom:.8rem; }
+.confirm-body { font-size:.85rem; color:var(--mid-gray); margin-bottom:1.8rem; line-height:1.5; }
+.confirm-btns { display:flex; gap:.8rem; justify-content:center; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--light-gray); border-radius:2px; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.hero-content > * { animation: fadeUp .6s ease both; }
+.hero-content > *:nth-child(2) { animation-delay:.15s; }
+
+/* Responsive minimal */
+@media (max-width:768px) {
+  .hero-content { grid-template-columns:1fr; gap:2rem; }
+  .hero-visual { display:none; }
+  #quienes { grid-template-columns:1fr; }
+  .products-grid { grid-template-columns:1fr 1fr; }
+  .stats-row { grid-template-columns:1fr 1fr; }
+  nav { padding:0 1.5rem; }
+  .nav-links { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav">
+  <div class="nav-logo">Nuit <span>Urbaine</span></div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navScroll('hero');return false;">Inicio</a></li>
+    <li><a href="#" onclick="navScroll('quienes');return false;">Nosotros</a></li>
+    <li><a href="#" onclick="navScroll('catalogo-section');return false;">Catálogo</a></li>
+    <li><a href="#" onclick="navScroll('contacto');return false;">Contacto</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showLogin()">Admin ↗</button>
+</nav>
+
+<!-- ══════════════════ PUBLIC SITE ══════════════════ -->
+<div id="public-site">
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag">Bogotá D.C. · 2025</div>
+        <h1 class="hero-title">
+          Diseña tu<br/><em>Identidad</em><br/>Urbana
+        </h1>
+        <p class="hero-sub">
+          Moda unisex que fusiona autenticidad, comodidad e inclusión con la cultura contemporánea de Bogotá. Cada prenda cuenta una historia.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="navScroll('catalogo-section')">Ver Catálogo</button>
+          <button class="btn-ghost" onclick="navScroll('quienes')">Quiénes Somos</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">2.5M</div>
+          <div class="hero-stat-label">Jóvenes urbanos</div>
+        </div>
+        <div class="hero-badge">Economía Naranja · FITIC Bogotá</div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">18–35</div>
+          <div class="hero-stat-label">Años · Público objetivo</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Unisex · Inclusivo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIÉNES SOMOS -->
+  <div id="quienes" style="background:var(--warm-white); padding-top:0;">
+    <div class="catalog-inner" style="padding-top:6rem;padding-bottom:6rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+        <div>
+          <div class="section-tag">Nuestra Misión</div>
+          <h2 class="section-title">La moda como<br/><em>lenguaje cultural</em></h2>
+          <p class="section-body">
+            Nuit Urbaine nació para cerrar la brecha en el mercado colombiano de moda urbana. Somos un Centro de Innovación y Apropiación Social que transforma la vestimenta en experiencia participativa de identidad, inclusión y creatividad.
+          </p>
+          <p class="section-body">
+            Operamos bajo los lineamientos de COLCIENCIAS y el PAED Bogotá, línea FITIC, con una visión de liderazgo nacional para 2028 a través de un modelo híbrido de e-commerce y espacios pop-up experienciales.
+          </p>
+          <div class="values-grid">
+            <div class="value-chip">Autenticidad</div>
+            <div class="value-chip">Inclusión</div>
+            <div class="value-chip">Sostenibilidad</div>
+            <div class="value-chip">Co-creación</div>
+            <div class="value-chip">Diseño Unisex</div>
+            <div class="value-chip">Cultura Urbana</div>
+          </div>
+        </div>
+        <div class="quienes-visual">
+          <div class="impact-row">
+            <div class="impact-item"><div class="impact-num">2.5M</div><div class="impact-label">Beneficiarios</div></div>
+            <div class="impact-item"><div class="impact-num">1.2M</div><div class="impact-label">Masculino</div></div>
+            <div class="impact-item"><div class="impact-num">1.3M</div><div class="impact-label">Diverso</div></div>
+          </div>
+          <div class="divider-line"></div>
+          <div class="quote-block">"Impulsando la moda urbana, la creatividad y la inclusión en cada prenda y cada historia."</div>
+          <div class="quote-attr">— Nuit Urbaine S.A.S. · Bogotá, 2025</div>
+          <div class="divider-line"></div>
+          <div class="impact-row">
+            <div class="impact-item"><div class="impact-num" style="font-size:1.6rem;">$150M</div><div class="impact-label">COP Inversión</div></div>
+            <div class="impact-item"><div class="impact-num" style="font-size:1.6rem;">600m²</div><div class="impact-label">Espacios</div></div>
+            <div class="impact-item"><div class="impact-num" style="font-size:1.6rem;">2028</div><div class="impact-label">Visión</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATÁLOGO -->
+  <div id="catalogo-section">
+    <div class="catalog-inner">
+      <div class="catalog-header">
+        <div>
+          <div class="section-tag">Colección</div>
+          <h2 class="section-title" style="font-size:2.5rem;">Nuestras <em>Prendas</em></h2>
+        </div>
+        <div class="catalog-filters">
+          <button class="filter-btn active" onclick="filterProducts('todos',this)">Todos</button>
+          <button class="filter-btn" onclick="filterProducts('superior',this)">Superior</button>
+          <button class="filter-btn" onclick="filterProducts('inferior',this)">Inferior</button>
+          <button class="filter-btn" onclick="filterProducts('accesorios',this)">Accesorios</button>
+        </div>
+      </div>
+      <div class="products-grid" id="public-products-grid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTO / FOOTER -->
+  <div id="contacto">
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand-name">Nuit Urbaine</div>
+            <p class="footer-tagline">Centro de Innovación y Apropiación Social en Moda Urbana. Bogotá D.C. · Colombia · 2025–2028</p>
+          </div>
+          <div>
+            <div class="footer-col-title">Navegación</div>
+            <ul class="footer-links">
+              <li><a href="#">Inicio</a></li>
+              <li><a href="#">Catálogo</a></li>
+              <li><a href="#">Quiénes Somos</a></li>
+              <li><a href="#">Fénix Club</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="footer-col-title">Contacto</div>
+            <ul class="footer-links">
+              <li><a href="#">Bogotá D.C.</a></li>
+              <li><a href="#">hola@nuiturbaine.co</a></li>
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">TikTok</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2025 Nuit Urbaine S.A.S. — Todos los derechos reservados.</span>
+          <span>Viste con Estilo</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</div><!-- /public-site -->
+
+<!-- ══════════════════ LOGIN ══════════════════ -->
+<div id="login-page" style="display:none;">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-text">Nuit Urbaine</div>
+      <div class="login-logo-sub">Panel de Administración</div>
+      <div class="login-divider"></div>
+    </div>
+    <div class="login-title">Acceso Restringido</div>
+    <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+    <div class="login-field">
+      <label>Usuario</label>
+      <input type="text" id="login-user" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Ingresar al Panel</button>
+    <p style="text-align:center;margin-top:1.5rem;font-size:.72rem;color:rgba(255,255,255,.25);">
+      <a href="#" onclick="showPublic()" style="color:var(--accent-light);text-decoration:none;">← Volver al sitio</a>
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════ ADMIN ══════════════════ -->
+<div id="admin-page">
+
+  <!-- TOPBAR FIJA -->
+  <div class="admin-topbar-bar">
+    <div class="admin-topbar-left">
+      <!-- Hamburger -->
+      <div class="admin-hamburger" onclick="toggleAdminSidebar()" title="Mostrar/ocultar menú">
+        <span></span><span></span><span></span>
+      </div>
+      <!-- Marca -->
+      <div class="admin-brand">
+        Nuit Urbaine
+        <span class="admin-brand-sub">Admin</span>
+      </div>
+      <!-- Tabs de sección -->
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="adminTab('dashboard',this)">
+          <span class="admin-tab-icon">▦</span> Dashboard
+        </div>
+        <div class="admin-tab" onclick="adminTab('catalogo',this)">
+          <span class="admin-tab-icon">◈</span> Catálogo
+        </div>
+        <div class="admin-tab" onclick="adminTab('inventario',this)">
+          <span class="admin-tab-icon">⊞</span> Inventario
+        </div>
+        <div class="admin-tab" onclick="adminTab('empleados',this)">
+          <span class="admin-tab-icon">◎</span> Empleados
+        </div>
+        <div class="admin-tab" onclick="adminTab('terceros',this)">
+          <span class="admin-tab-icon">⊕</span> Terceros
+        </div>
+        <div class="admin-tab" onclick="adminTab('configuracion',this)">
+          <span class="admin-tab-icon">⚙</span> Config
+        </div>
+      </div>
+    </div>
+    <div class="admin-topbar-right">
+      <div class="admin-user-pill">
+        <div class="admin-user-dot"></div>
+        Administrador
+      </div>
+    </div>
+  </div>
+
+  <!-- CUERPO: sidebar + main -->
+  <div class="admin-body">
+
+    <!-- SIDEBAR COLAPSABLE -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">
+        <div class="admin-sidebar-label">Navegación</div>
+        <div class="admin-nav-item active" onclick="adminTab('dashboard',null)">
+          <span class="admin-nav-icon">▦</span> Dashboard
+        </div>
+        <div class="admin-nav-item" onclick="adminTab('catalogo',null)">
+          <span class="admin-nav-icon">◈</span> Catálogo
+        </div>
+        <div class="admin-nav-item" onclick="adminTab('inventario',null)">
+          <span class="admin-nav-icon">⊞</span> Inventario
+        </div>
+        <div class="admin-nav-item" onclick="adminTab('empleados',null)">
+          <span class="admin-nav-icon">◎</span> Empleados
+        </div>
+        <div class="admin-nav-item" onclick="adminTab('terceros',null)">
+          <span class="admin-nav-icon">⊕</span> Terceros
+        </div>
+        <div class="admin-nav-item" onclick="adminTab('configuracion',null)">
+          <span class="admin-nav-icon">⚙</span> Configuración
+        </div>
+      </div>
+
+      <div class="admin-sidebar-section" style="flex:1">
+        <div class="admin-sidebar-label">Accesos rápidos</div>
+        <div class="admin-nav-item" onclick="adminTab('catalogo', document.querySelectorAll('.admin-tab')[1]);setTimeout(()=>openModal(),100)">
+          <span class="admin-nav-icon">＋</span> Nueva prenda
+        </div>
+      </div>
+
+      <!-- Ir al sitio desplegable -->
+      <div class="admin-site-menu">
+        <div class="admin-site-trigger" onclick="toggleSiteMenu(this)">
+          <span>↗ Ir al sitio</span>
+          <span class="site-menu-arrow">▾</span>
+        </div>
+        <div class="admin-site-dropdown">
+          <div class="site-drop-item" onclick="showPublic();navScroll('hero')">
+            <span class="site-drop-icon">⌂</span> Inicio
+          </div>
+          <div class="site-drop-item" onclick="showPublic();navScroll('quienes')">
+            <span class="site-drop-icon">◎</span> Nosotros
+          </div>
+          <div class="site-drop-item" onclick="showPublic();navScroll('catalogo-section')">
+            <span class="site-drop-icon">◈</span> Catálogo
+          </div>
+          <div class="site-drop-item" onclick="showPublic();navScroll('contacto')">
+            <span class="site-drop-icon">✉</span> Contacto
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN SCROLLEABLE -->
+    <main class="admin-main" id="admin-main">
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard">
+      <div class="exec-dash">
+
+        <!-- SECTION HEADER -->
+        <div class="exec-sec-row">
+          <div>
+            <div class="exec-sec-tag">Resumen ejecutivo</div>
+            <div class="exec-sec-title">Dashboard <em style="font-style:italic;color:var(--accent)">General</em></div>
+            <div class="exec-sec-sub">Nuit Urbaine S.A.S. · Centro de Innovación y Apropiación Social en Moda Urbana · Bogotá D.C.</div>
+          </div>
+          <div class="exec-period">H1 · ENERO – JUNIO 2025</div>
+        </div>
+
+        <!-- KPI ROW — Datos en vivo desde VW_RESUMEN_EJECUTIVO -->
+        <div class="exec-kpi-grid" id="db-kpi-row">
+          <!-- renderDashboard() inyecta KPIs reales de la base de datos -->
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="exec-charts-row">
+          <div class="exec-chart-panel">
+            <div class="exec-chart-title">Ventas mensuales — Ingresos COP</div>
+            <div class="exec-chart-val">$421.000.000 acumulado · H1 2025</div>
+            <div class="exec-legend">
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#8b7355"></span>2025</span>
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#c8c4bc;border:1px dashed #8b7355"></span>2024</span>
+            </div>
+            <div style="position:relative;width:100%;height:180px;margin-top:.5rem">
+              <canvas id="chartVentas"></canvas>
+            </div>
+          </div>
+          <div class="exec-chart-panel">
+            <div class="exec-chart-title">Participación por canal</div>
+            <div class="exec-chart-val">5 canales activos</div>
+            <div class="exec-legend">
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#3d3028"></span>Tienda 42%</span>
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#8b7355"></span>E-comm 28%</span>
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#c4a882"></span>WhatsApp 15%</span>
+              <span class="exec-leg-item"><span class="exec-leg-sq" style="background:#c8c4bc"></span>Otros 15%</span>
+            </div>
+            <div style="position:relative;width:100%;height:180px;margin-top:.5rem">
+              <canvas id="chartCanal"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLES ROW -->
+        <div class="exec-tables-row">
+          <div class="exec-table-panel">
+            <div class="exec-table-hdr">
+              <span class="exec-table-hdr-title">Top prendas · H1 2025</span>
+              <span style="font-size:.62rem;color:var(--accent);letter-spacing:.08em">Por ingresos</span>
+            </div>
+            <table class="exec-tbl">
+              <thead>
+                <tr><th>Prenda</th><th>Categoría</th><th>Precio</th><th>Uds.</th><th>Margen</th><th>Estado</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Jean Baggy Cargo 2026</td><td>Denim</td><td>$219.900</td><td>380</td><td>50.0%</td><td><span class="exec-badge-tag nuevo">Nuevo</span></td></tr>
+                <tr><td>Jean Baggy 2026</td><td>Denim</td><td>$189.900</td><td>400</td><td>49.9%</td><td><span class="exec-badge-tag dest">Destacado</span></td></tr>
+                <tr><td>Jacket Noche</td><td>Superior</td><td>$149.900</td><td>340</td><td>52.0%</td><td><span class="exec-badge-tag dest">Destacado</span></td></tr>
+                <tr><td>Jean Vaquero Bootcut</td><td>Denim</td><td>$169.900</td><td>360</td><td>50.0%</td><td><span class="exec-badge-tag nuevo">Nuevo</span></td></tr>
+                <tr><td>Chaqueta Bomber</td><td>Outerwear</td><td>$189.900</td><td>290</td><td>52.6%</td><td><span class="exec-badge-tag nuevo">Nuevo</span></td></tr>
+                <tr><td>Sudadera Fénix Club</td><td>Superior</td><td>$119.900</td><td>0</td><td>53.3%</td><td><span class="exec-badge-tag agotado">Agotado</span></td></tr>
+                <tr><td>Jean Flare 70s</td><td>Denim</td><td>$185.900</td><td>220</td><td>50.0%</td><td><span class="exec-badge-tag nuevo">Nuevo</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="exec-table-panel">
+            <div class="exec-table-hdr">
+              <span class="exec-table-hdr-title">Alertas de inventario</span>
+              <span style="font-size:.62rem;color:#c0503c;letter-spacing:.08em">4 agotados</span>
+            </div>
+            <table class="exec-tbl">
+              <thead>
+                <tr><th>Producto</th><th>Talla</th><th>Stock</th><th>Alerta</th></tr>
+              </thead>
+              <tbody id="db-alerta-tbody">
+                <!-- renderDashboard() inyecta alertas desde VW_INVENTARIO_ALERTAS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTTOM ROW -->
+        <div class="exec-bottom-row">
+          <!-- Categorías -->
+          <div class="exec-mini-panel">
+            <div class="exec-mini-title">Ingresos por categoría · H1</div>
+            <div class="exec-progress-item">
+              <div class="exec-prog-row"><span>Denim</span><span style="font-weight:500">$176M · 42%</span></div>
+              <div class="exec-prog-bar"><div class="exec-prog-fill" style="width:42%;background:#3d3028"></div></div>
+            </div>
+            <div class="exec-progress-item">
+              <div class="exec-prog-row"><span>Superior / Tops</span><span style="font-weight:500">$109M · 26%</span></div>
+              <div class="exec-prog-bar"><div class="exec-prog-fill" style="width:26%;background:#8b7355"></div></div>
+            </div>
+            <div class="exec-progress-item">
+              <div class="exec-prog-row"><span>Outerwear</span><span style="font-weight:500">$75M · 18%</span></div>
+              <div class="exec-prog-bar"><div class="exec-prog-fill" style="width:18%;background:#c4a882"></div></div>
+            </div>
+            <div class="exec-progress-item">
+              <div class="exec-prog-row"><span>Accesorios</span><span style="font-weight:500">$34M · 8%</span></div>
+              <div class="exec-prog-bar"><div class="exec-prog-fill" style="width:8%;background:#c8c4bc"></div></div>
+            </div>
+            <div class="exec-progress-item">
+              <div class="exec-prog-row"><span>Conjuntos</span><span style="font-weight:500">$25M · 6%</span></div>
+              <div class="exec-prog-bar"><div class="exec-prog-fill" style="width:6%;background:#e8e3da"></div></div>
+            </div>
+            <div style="height:1px;background:var(--surface);margin:1rem 0 .65rem"></div>
+            <div style="font-size:.63rem;color:var(--mid-gray)">Objetivo H1 cumplido al <strong style="color:var(--dark-accent)">102.4%</strong></div>
+          </div>
+
+          <!-- Actividad reciente -->
+          <div class="exec-mini-panel">
+            <div class="exec-mini-title">Actividad reciente</div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot g"></div>
+              <div><div class="exec-act-text">Nueva prenda: <strong>Jean Baggy Cargo 2026</strong></div><div class="exec-act-time">Hoy, 09:14 · admin</div></div>
+            </div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot b"></div>
+              <div><div class="exec-act-text">Cliente registrado: <strong>Valentina Torres</strong></div><div class="exec-act-time">Hoy, 08:47 · sistema</div></div>
+            </div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot r"></div>
+              <div><div class="exec-act-text">Stock agotado: <strong>Jean Skinny Urbano / XS</strong></div><div class="exec-act-time">Ayer, 18:32 · inventario</div></div>
+            </div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot g"></div>
+              <div><div class="exec-act-text">Cierre mensual: <strong>Jun 2025 → $85M</strong></div><div class="exec-act-time">30 Jun, 23:59 · sistema</div></div>
+            </div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot"></div>
+              <div><div class="exec-act-text">Empleado: <strong>Laura Ximena Gutierrez</strong></div><div class="exec-act-time">28 Jun, 11:05 · admin</div></div>
+            </div>
+            <div class="exec-activity-item">
+              <div class="exec-act-dot b"></div>
+              <div><div class="exec-act-text">DWH: <strong>FACT_VENTAS 2.400 registros</strong></div><div class="exec-act-time">27 Jun, 07:00 · sistema</div></div>
+            </div>
+          </div>
+
+          <!-- Nómina / Equipo -->
+          <div class="exec-mini-panel">
+            <div class="exec-mini-title">Equipo & nómina</div>
+            <div class="exec-mini-kpi-row">
+              <div class="exec-mini-kpi"><div class="exec-mk-lbl">Empleados</div><div class="exec-mk-val">30</div><div class="exec-mk-sub">Activos</div></div>
+              <div class="exec-mini-kpi"><div class="exec-mk-lbl">Nómina total</div><div class="exec-mk-val">$87M</div><div class="exec-mk-sub">Mensual COP</div></div>
+              <div class="exec-mini-kpi"><div class="exec-mk-lbl">Directivos</div><div class="exec-mk-val">4</div><div class="exec-mk-sub">Nivel 4</div></div>
+              <div class="exec-mini-kpi"><div class="exec-mk-lbl">Operativos</div><div class="exec-mk-val">14</div><div class="exec-mk-sub">Nivel 1–2</div></div>
+            </div>
+            <div style="height:1px;background:var(--surface);margin:1rem 0 .65rem"></div>
+            <div style="position:relative;width:100%;height:90px">
+              <canvas id="chartNomina"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /exec-dash -->
+
+      <!-- hidden legacy ids used by old renderDashboard() JS -->
+      <div id="stats-row" style="display:none"></div>
+      <div id="recent-products" style="display:none"></div>
+    </div>
+
+    <!-- CATÁLOGO CRUD -->
+    <div id="tab-catalogo" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Gestión de Catálogo</div>
+          <div class="admin-page-sub">Crear, editar y eliminar prendas</div>
+        </div>
+        <button class="btn-add" onclick="openModal()">+ Agregar Prenda</button>
+      </div>
+      <div class="crud-controls">
+        <input class="crud-search" type="text" placeholder="Buscar por nombre, categoría…" oninput="renderTable(this.value)"/>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th style="width:60px;">Imagen</th>
+              <th>Nombre / Referencia</th>
+              <th>Categoría</th>
+              <th>Precio Base</th>
+              <th>Stock Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="crud-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COLECCIONES -->
+
+    <!-- ══ INVENTARIO ══ -->
+    <div id="tab-inventario" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Inventario de Productos</div>
+          <div class="admin-page-sub">INVENTARIO_PRODUCTOS — variantes por talla, color y stock</div>
+        </div>
+      </div>
+      <div class="crud-controls">
+        <input class="crud-search" type="text" placeholder="Buscar por producto, talla, color…" oninput="renderInventario(this.value)"/>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th>#InvID</th>
+              <th>Producto</th>
+              <th>Talla</th>
+              <th>Color</th>
+              <th>Stock</th>
+              <th>Mín/Máx</th>
+              <th>P.Venta</th>
+              <th>Estado</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody id="inv-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ EMPLEADOS ══ -->
+    <div id="tab-empleados" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Gestión de Empleados</div>
+          <div class="admin-page-sub">BASE_DATOS_EMPLEADOS — VW_EMPLEADOS_DETALLE</div>
+        </div>
+      </div>
+      <div class="crud-controls">
+        <input class="crud-search" type="text" placeholder="Buscar por nombre o cargo…" oninput="renderEmpleados(this.value)"/>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">Foto</th>
+              <th>Nombre / Documento</th>
+              <th>Cargo</th>
+              <th>Contrato</th>
+              <th>Salario</th>
+              <th>Nivel</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="emp-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ TERCEROS ══ -->
+    <div id="tab-terceros" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Directorio de Terceros</div>
+          <div class="admin-page-sub">VW_DIRECTORIO_TERCEROS — Empresas · Proveedores · Bancos</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin:0 0 1rem;flex-wrap:wrap;">
+        <button id="terc-tab-empresas" class="filter-btn tercero-tab active" onclick="renderTerceros('empresas')">🏢 Empresas</button>
+        <button id="terc-tab-proveedores" class="filter-btn tercero-tab" onclick="renderTerceros('proveedores')">📦 Proveedores</button>
+        <button id="terc-tab-bancos" class="filter-btn tercero-tab" onclick="renderTerceros('bancos')">🏦 Bancos</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th>Nombre</th><th>NIT</th><th>Régimen</th><th>Ciudad</th><th>Correo</th><th>Teléfono</th><th>Editar</th>
+            </tr>
+          </thead>
+          <tbody id="terc-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ CONFIGURACIÓN ══ -->
+    <div id="tab-configuracion" style="display:none;">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Configuración · Base de Datos</div>
+          <div class="admin-page-sub">Conexión SQL Server · Migración · Scripts</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:1.5rem 0;">
+        <!-- Connection String -->
+        <div style="background:var(--warm-white);border:1px solid var(--surface);padding:1.5rem;">
+          <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">Cadena de Conexión</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:1rem;">SQL Server Config</div>
+          <div style="font-size:.75rem;color:var(--mid-gray);line-height:1.8;">
+            <div style="margin-bottom:.5rem;"><strong>Servidor:</strong> localhost</div>
+            <div style="margin-bottom:.5rem;"><strong>Base de datos:</strong> Nuitt</div>
+            <div style="margin-bottom:.5rem;"><strong>Autenticación:</strong> Integrada (Windows)</div>
+            <div style="background:var(--charcoal);color:var(--accent-light);padding:.75rem;font-family:monospace;font-size:.72rem;border-radius:2px;margin-top:.75rem;word-break:break-all;">
+              Data Source=localhost;Initial Catalog=Nuitt;Integrated Security=True
+            </div>
+          </div>
+          <div style="font-size:.65rem;color:var(--mid-gray);margin-top:1rem;">
+            En WinForms: usar <code>System.Data.SqlClient.SqlConnection</code><br>
+            Guardar en <code>app.config → connectionStrings</code>
+          </div>
+        </div>
+        <!-- Migration Script -->
+        <div style="background:var(--warm-white);border:1px solid var(--surface);padding:1.5rem;">
+          <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">Script de Migración</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:1rem;">Nuevas columnas necesarias</div>
+          <div style="font-size:.75rem;color:var(--mid-gray);line-height:1.6;">
+            Este script agrega las columnas requeridas a tu base de datos existente sin borrar datos:
+            <ul style="margin:.75rem 0 .75rem 1.2rem;line-height:1.9;">
+              <li><code>BASE_DATOS_PRODUCTOS.ImagenURL</code> — ruta de imagen</li>
+              <li><code>BASE_DATOS_PRODUCTOS.Descripcion</code> — descripción larga</li>
+              <li><code>BASE_DATOS_PRODUCTOS.Estado</code> — nuevo/destacado/agotado</li>
+              <li><code>BASE_DATOS_EMPLEADOS.FotoURL</code> — foto de empleado</li>
+              <li><code>USUARIOS_SISTEMA</code> — tabla de login</li>
+            </ul>
+          </div>
+          <button class="btn-add" onclick="copiarSQL()" style="font-size:.72rem;padding:.5rem 1.2rem;">📋 Copiar script SQL</button>
+        </div>
+        <!-- Tablas existentes -->
+        <div style="background:var(--warm-white);border:1px solid var(--surface);padding:1.5rem;grid-column:1/-1;">
+          <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;">Estructura de Base de Datos Nuitt</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;font-size:.75rem;">
+            <div>
+              <div style="font-weight:600;color:var(--dark-accent);margin-bottom:.4rem;">📋 Tablas</div>
+              <div style="color:var(--mid-gray);line-height:2;">
+                BASE_DATOS_PRODUCTOS<br>
+                INVENTARIO_PRODUCTOS<br>
+                BASE_DATOS_EMPLEADOS<br>
+                BASE_DATOS_EMPRESAS<br>
+                BASE_DATOS_PROVEEDORES<br>
+                BASE_DATOS_BANCOS<br>
+                USUARIOS_SISTEMA ✦ nuevo
+              </div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--dark-accent);margin-bottom:.4rem;">👁 Vistas</div>
+              <div style="color:var(--mid-gray);line-height:2;">
+                VW_CATALOGO_INVENTARIO<br>
+                VW_INVENTARIO_ALERTAS<br>
+                VW_EMPLEADOS_DETALLE<br>
+                VW_DIRECTORIO_TERCEROS<br>
+                VW_RESUMEN_EJECUTIVO
+              </div>
+            </div>
+            <div>
+              <div style="font-weight:600;color:var(--dark-accent);margin-bottom:.4rem;">🖼 Imágenes</div>
+              <div style="color:var(--mid-gray);line-height:1.8;font-size:.72rem;">
+                Las imágenes se guardan como rutas relativas en la columna <code>ImagenURL</code>.<br><br>
+                Carpeta sugerida:<br>
+                <code>wwwroot/images/productos/</code><br><br>
+                Formato recomendado:<br>
+                <code>producto_{ProductoID}.jpg</code><br><br>
+                En WinForms: <code>C:\NuitUrbaine\Images\</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  </div><!-- /admin-body -->
+</div><!-- /admin-page -->
+
+<!-- ══ MODAL PRODUCTO (con imagen) ══ -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Nueva Prenda</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- IMAGEN -->
+      <div style="border:1px dashed var(--light-gray);padding:1.2rem;text-align:center;margin-bottom:1.2rem;background:var(--card);position:relative;">
+        <img id="img-preview" src="" alt="Vista previa" style="display:none;max-height:160px;max-width:100%;object-fit:contain;margin-bottom:.75rem;"/>
+        <div style="font-size:.7rem;color:var(--mid-gray);margin-bottom:.75rem;">Imagen del producto (JPG, PNG, WEBP · máx. 5 MB)</div>
+        <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;">
+          <label style="cursor:pointer;background:var(--accent);color:var(--cream);padding:.45rem 1.1rem;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;">
+            📁 Seleccionar imagen
+            <input type="file" id="f-img-file" accept="image/*" style="display:none;" onchange="handleImageUpload(this)">
+          </label>
+          <button type="button" onclick="clearImage()" style="background:transparent;border:1px solid var(--light-gray);color:var(--mid-gray);padding:.45rem 1rem;font-size:.72rem;cursor:pointer;">✕ Limpiar</button>
+        </div>
+        <input type="hidden" id="f-img-url" value="">
+        <div style="font-size:.62rem;color:var(--mid-gray);margin-top:.6rem;">La imagen se guarda en la carpeta <code>images/productos/</code> y la ruta en <code>ImagenURL</code> de la BD.</div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Nombre de la prenda *</label>
+          <input type="text" id="f-name" placeholder="Ej. Cargo Fénix"/>
+        </div>
+        <div class="form-field">
+          <label>Referencia (FichaT_Ref)</label>
+          <input type="text" id="f-ref" placeholder="NU-007"/>
+        </div>
+        <div class="form-field">
+          <label>Categoría</label>
+          <select id="f-cat">
+            <option value="superior">Superior</option>
+            <option value="inferior">Inferior</option>
+            <option value="accesorios">Accesorios</option>
+            <option value="calzado">Calzado</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Línea</label>
+          <input type="text" id="f-linea" placeholder="Urban, Night, Base…"/>
+        </div>
+        <div class="form-field">
+          <label>Precio Base (COP) *</label>
+          <input type="number" id="f-price" placeholder="89900"/>
+        </div>
+        <div class="form-field">
+          <label>Estado</label>
+          <select id="f-status">
+            <option value="nuevo">Nuevo</option>
+            <option value="destacado">Destacado</option>
+            <option value="agotado">Agotado</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Material</label>
+          <input type="text" id="f-material" placeholder="Algodón orgánico 100%"/>
+        </div>
+        <div class="form-field">
+          <label>Color principal</label>
+          <input type="text" id="f-color" placeholder="Negro, Blanco…"/>
+        </div>
+        <div class="form-field">
+          <label>Tallas disponibles</label>
+          <input type="text" id="f-sizes" placeholder="XS, S, M, L, XL"/>
+        </div>
+        <div class="form-field full">
+          <label>Descripción</label>
+          <textarea id="f-desc" placeholder="Descripción breve de la prenda…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveProduct()">Guardar en BD</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL INVENTARIO ══ -->
+<div class="modal-overlay" id="inv-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="inv-modal-title">Editar Inventario</div>
+      <button class="modal-close" onclick="closeInvModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:.75rem;color:var(--mid-gray);margin-bottom:1rem;">
+        Producto: <strong id="inv-f-productoNombre"></strong>
+      </div>
+      <input type="hidden" id="inv-f-productoID">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Talla</label>
+          <input type="text" id="inv-f-talla" placeholder="XS, S, M, L…"/>
+        </div>
+        <div class="form-field">
+          <label>Color</label>
+          <input type="text" id="inv-f-color" placeholder="Negro, Azul…"/>
+        </div>
+        <div class="form-field">
+          <label>Stock Disponible</label>
+          <input type="number" id="inv-f-stock" placeholder="0"/>
+        </div>
+        <div class="form-field">
+          <label>Stock Mínimo</label>
+          <input type="number" id="inv-f-smin" placeholder="10"/>
+        </div>
+        <div class="form-field">
+          <label>Stock Máximo</label>
+          <input type="number" id="inv-f-smax" placeholder="50"/>
+        </div>
+        <div class="form-field">
+          <label>Costo Unitario (COP)</label>
+          <input type="number" id="inv-f-costo" placeholder="40000"/>
+        </div>
+        <div class="form-field">
+          <label>Precio de Venta (COP)</label>
+          <input type="number" id="inv-f-pventa" placeholder="89900"/>
+        </div>
+        <div class="form-field">
+          <label>Ubicación en bodega</label>
+          <input type="text" id="inv-f-ubicacion" placeholder="A-01"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeInvModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveInventario()">Guardar en BD</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL EMPLEADO ══ -->
+<div class="modal-overlay" id="emp-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Editar Empleado</div>
+      <button class="modal-close" onclick="closeEmpModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- Foto empleado -->
+      <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.2rem;">
+        <div>
+          <img id="emp-img-preview" src="" alt="Foto" style="display:none;width:72px;height:72px;border-radius:50%;object-fit:cover;"/>
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:var(--mid-gray);margin-bottom:.5rem;">Foto del empleado</div>
+          <label style="cursor:pointer;background:var(--surface);color:var(--charcoal);padding:.4rem .9rem;font-size:.7rem;border:1px solid var(--light-gray);">
+            📷 Subir foto
+            <input type="file" accept="image/*" style="display:none;" onchange="handleEmpFotoUpload(this)">
+          </label>
+          <input type="hidden" id="emp-f-foto-url" value="">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field full">
+          <label>Nombre completo</label>
+          <input type="text" id="emp-f-nombre" placeholder="Nombre y apellidos"/>
+        </div>
+        <div class="form-field">
+          <label>No. Documento</label>
+          <input type="text" id="emp-f-doc" placeholder="CC / NIT"/>
+        </div>
+        <div class="form-field">
+          <label>Cargo</label>
+          <input type="text" id="emp-f-cargo" placeholder="Diseñador, Operativo…"/>
+        </div>
+        <div class="form-field">
+          <label>Tipo de Contrato</label>
+          <select id="emp-f-contrato">
+            <option>Término fijo</option>
+            <option>Término indefinido</option>
+            <option>Prestación de servicios</option>
+            <option>Aprendizaje</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Salario Básico (COP)</label>
+          <input type="number" id="emp-f-salario" placeholder="1500000"/>
+        </div>
+        <div class="form-field">
+          <label>Teléfono</label>
+          <input type="text" id="emp-f-tel" placeholder="3001234567"/>
+        </div>
+        <div class="form-field">
+          <label>Ciudad</label>
+          <input type="text" id="emp-f-ciudad" placeholder="Bogotá"/>
+        </div>
+        <div class="form-field">
+          <label>No. Cuenta Bancaria</label>
+          <input type="text" id="emp-f-cuenta" placeholder="0000000000"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEmpModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveEmpleado()">Guardar en BD</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL TERCEROS ══ -->
+<div class="modal-overlay" id="terc-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="terc-modal-title">Editar Empresa</div>
+      <button class="modal-close" onclick="closeTercModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-field full">
+          <label>Nombre</label>
+          <input type="text" id="terc-f-nombre"/>
+        </div>
+        <div class="form-field">
+          <label>NIT</label>
+          <input type="text" id="terc-f-nit"/>
+        </div>
+        <div class="form-field">
+          <label>Razón Social / Tipo Sociedad</label>
+          <input type="text" id="terc-f-razon"/>
+        </div>
+        <div class="form-field">
+          <label>Tipo de Régimen</label>
+          <select id="terc-f-regimen">
+            <option>Responsable de IVA</option>
+            <option>No responsable de IVA</option>
+            <option>Régimen simple</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Dirección</label>
+          <input type="text" id="terc-f-dir"/>
+        </div>
+        <div class="form-field">
+          <label>Ciudad</label>
+          <input type="text" id="terc-f-ciudad"/>
+        </div>
+        <div class="form-field">
+          <label>Correo</label>
+          <input type="email" id="terc-f-correo"/>
+        </div>
+        <div class="form-field">
+          <label>Teléfono</label>
+          <input type="text" id="terc-f-tel"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeTercModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveTercero()">Guardar en BD</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirm-modal">
+  <div class="confirm-box">
+    <div class="confirm-icon">⚠</div>
+    <div class="confirm-title">Eliminar Prenda</div>
+    <div class="confirm-body">Esta acción realiza un borrado lógico (Activo=0) en BASE_DATOS_PRODUCTOS. ¿Confirmar?</div>
+    <div class="confirm-btns">
+      <button class="btn-cancel" onclick="document.getElementById('confirm-modal').classList.remove('open')">Cancelar</button>
+      <button class="btn-save" style="background:#c04040;" id="confirm-delete-btn">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  NUIT URBAINE — CAPA DE DATOS SQL SERVER                        ║
+// ║  Base de datos: Nuitt (Nuit_Urbanie)                            ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+// ── CONFIGURACIÓN DE CONEXIÓN ──
+// Esta sección simula la conexión SQL Server en el front.
+// En producción, reemplazar estas llamadas con fetch() a un backend
+// ASP.NET/Node.js/PHP que use System.Data.SqlClient o mssql npm.
+
+// ══════════════════════════════════════════════════════════
+//  CONFIGURACIÓN DE LA API REAL (ASP.NET Core + SQL Server)
+//  La API corre en http://localhost:5050 al hacer F5 en VS
+// ══════════════════════════════════════════════════════════
+const API_BASE = 'http://localhost:5050/api';;
+
+// Cache en memoria — se refresca cada vez que el admin entra o guarda algo
+const DB = { productos:[], inventario:[], empleados:[], empresas:[], proveedores:[], bancos:[] };
+
+async function apiFetch(path, opts={}) {
+  try {
+    const res = await fetch(API_BASE + path, {
+      headers: { 'Content-Type': 'application/json' },
+      ...opts,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch(e) {
+    console.error('API error:', path, e);
+    showToast('⚠️ Error de conexión con la API. ¿Está corriendo el servidor?');
+    return null;
+  }
+}
+
+// Normaliza un objeto para que siempre tenga claves PascalCase
+// La API de .NET puede devolver camelCase o PascalCase según la configuración
+function norm(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  const out = {};
+  for (const k of Object.keys(obj)) {
+    const pascal = k.charAt(0).toUpperCase() + k.slice(1);
+    out[pascal] = obj[k];
+    out[k] = obj[k]; // mantener ambas por compatibilidad
+  }
+  return out;
+}
+function normArr(arr) { return Array.isArray(arr) ? arr.map(norm) : []; }
+
+// Carga todos los datos de la BD (sin caché para que siempre esté fresco)
+async function loadAllData() {
+  const [prods, inv, emps, emps2, provs, banks] = await Promise.all([
+    apiFetch('/productos'),
+    apiFetch('/inventario'),
+    apiFetch('/empleados'),
+    apiFetch('/terceros/empresas'),
+    apiFetch('/terceros/proveedores'),
+    apiFetch('/terceros/bancos'),
+  ]);
+  if (prods)  DB.productos    = normArr(prods);
+  if (inv)    DB.inventario   = normArr(inv);
+  if (emps)   DB.empleados    = normArr(emps);
+  if (emps2)  DB.empresas     = normArr(emps2);
+  if (provs)  DB.proveedores  = normArr(provs);
+  if (banks)  DB.bancos       = normArr(banks);
+}
+
+// Recarga solo productos e inventario (tras agregar/editar una prenda)
+async function refreshProductos() {
+  const [prods, inv] = await Promise.all([apiFetch('/productos'), apiFetch('/inventario')]);
+  if (prods) DB.productos  = normArr(prods);
+  if (inv)   DB.inventario = normArr(inv);
+}
+
+const SQL_MIGRATION = `
+-- Ejecutar en SQL Server Management Studio:
+-- 1. Agregar columna de imagen a BASE_DATOS_PRODUCTOS
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID('dbo.BASE_DATOS_PRODUCTOS') AND name='ImagenURL')
+  ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ADD ImagenURL nvarchar(500) NULL;
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID('dbo.BASE_DATOS_PRODUCTOS') AND name='Descripcion')
+  ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ADD Descripcion nvarchar(1000) NULL;
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID('dbo.BASE_DATOS_PRODUCTOS') AND name='Estado')
+  ALTER TABLE dbo.BASE_DATOS_PRODUCTOS ADD Estado nvarchar(20) NULL DEFAULT 'nuevo';
+-- 2. Agregar columna de imagen a BASE_DATOS_EMPLEADOS
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID('dbo.BASE_DATOS_EMPLEADOS') AND name='FotoURL')
+  ALTER TABLE dbo.BASE_DATOS_EMPLEADOS ADD FotoURL nvarchar(500) NULL;
+-- 3. Tabla de usuarios para login
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='USUARIOS_SISTEMA')
+CREATE TABLE dbo.USUARIOS_SISTEMA (
+  UsuarioID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+  Username nvarchar(50) NOT NULL UNIQUE,
+  PasswordHash nvarchar(200) NOT NULL,
+  Rol nvarchar(20) NOT NULL DEFAULT 'admin',
+  Activo bit NOT NULL DEFAULT 1,
+  FechaCreacion datetime2 NOT NULL DEFAULT GETDATE()
+);
+IF NOT EXISTS (SELECT 1 FROM dbo.USUARIOS_SISTEMA WHERE Username='admin')
+  INSERT INTO dbo.USUARIOS_SISTEMA(Username,PasswordHash,Rol) VALUES('admin','admin123','admin');
+`;
+
+let editingId = null;
+let deleteTargetId = null;
+let currentAdminTab = 'dashboard';
+let editingEmpleadoId = null;
+let editingInventarioId = null;
+let editingTerceroId = null;
+let currentTerceroType = 'empresas';
+
+// ── NAVEGACIÓN ──
+const _nativeScrollTo = window.scrollTo.bind(window);
+function navScroll(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  _nativeScrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 70, behavior:'smooth' });
+}
+function toggleSiteMenu(trigger) {
+  trigger.classList.toggle('open');
+  trigger.nextElementSibling.classList.toggle('open');
+}
+function showLogin() {
+  document.getElementById('public-site').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('admin-page').classList.remove('active');
+  document.getElementById('main-nav').style.display = 'none';
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+}
+function showPublic() {
+  document.getElementById('public-site').style.display = 'block';
+  document.getElementById('login-page').style.display = 'none';
+  const ap = document.getElementById('admin-page');
+  ap.style.display = 'none';
+  ap.classList.remove('active');
+  document.getElementById('main-nav').style.display = 'flex';
+  renderPublicCatalog();
+}
+function showAdmin() {
+  document.getElementById('public-site').style.display = 'none';
+  document.getElementById('login-page').style.display = 'none';
+  const ap = document.getElementById('admin-page');
+  ap.style.display = 'flex';
+  ap.classList.add('active');
+  ap.classList.remove('sidebar-open');
+  document.getElementById('main-nav').style.display = 'none';
+  adminTab('dashboard', null);
+}
+async function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const result = await apiFetch('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ username: u, password: p })
+  });
+  if (result && result.ok) {
+    await loadAllData();
+    showAdmin();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+// ── ADMIN TABS ──
+const ALL_TABS = ['dashboard','catalogo','inventario','empleados','terceros','configuracion'];
+
+function adminTab(tab, el) {
+  document.querySelectorAll('.admin-tab').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+  currentAdminTab = tab;
+
+  // Activar tab en topbar
+  const tabMap = {'dashboard':0,'catalogo':1,'inventario':2,'empleados':3,'terceros':4,'configuracion':5};
+  const tabs = document.querySelectorAll('.admin-tab');
+  if (tabs[tabMap[tab]]) tabs[tabMap[tab]].classList.add('active');
+
+  // Activar en sidebar
+  const sItems = document.querySelectorAll('.admin-nav-item');
+  if (sItems[tabMap[tab]]) sItems[tabMap[tab]].classList.add('active');
+
+  // Mostrar tab
+  ALL_TABS.forEach(t => {
+    const el2 = document.getElementById('tab-'+t);
+    if (el2) el2.style.display = t===tab ? 'block' : 'none';
+  });
+
+  if (tab==='dashboard')    renderDashboard();
+  if (tab==='catalogo')     renderTable('');
+  if (tab==='inventario')   renderInventario('');
+  if (tab==='empleados')    renderEmpleados('');
+  if (tab==='terceros')     renderTerceros('empresas');
+  if (tab==='configuracion') renderConfiguracion();
+}
+
+function toggleAdminSidebar() {
+  document.getElementById('admin-page').classList.toggle('sidebar-open');
+}
+
+// ── CATÁLOGO PÚBLICO ──
+// Solo muestra productos activos (Activo===true) que ya vienen normalizados con norm()
+function renderPublicCatalog(filter='todos') {
+  const grid = document.getElementById('public-products-grid');
+  if (!grid) return;
+  // Filtrar solo activos — la API ya filtra WHERE Activo=1, pero nos aseguramos en front también
+  const activos = DB.productos.filter(p => p.Activo === true || p.Activo === 1);
+  const items = filter === 'todos'
+    ? activos
+    : activos.filter(p => (p.Categoria||'').toLowerCase() === filter.toLowerCase());
+  if (!items.length) {
+    grid.innerHTML = '<div class="crud-empty" style="grid-column:1/-1;">No hay prendas en esta categoría.</div>';
+    return;
+  }
+  grid.innerHTML = items.map(p => {
+    const cat    = p.Categoria || '';
+    const nombre = p.NombreProducto || '';
+    const precio = p.PrecioBase || 0;
+    const estado = (p.Estado || '').toLowerCase();
+    const desc   = p.Descripcion || '';
+    const imgURL = p.ImagenURL || '';
+    // Calcular stock total del inventario para este producto
+    const invStock = DB.inventario
+      .filter(i => i.ProductoID === p.ProductoID)
+      .reduce((a, i) => a + (i.StockDisponible || 0), 0);
+    const estaAgotado = estado === 'agotado' || invStock === 0;
+    return `
+    <div class="product-card">
+      <div class="product-img" style="background:${getBg(cat.toLowerCase())};position:relative;">
+        ${!estaAgotado && estado === 'nuevo' ? '<div class="product-badge">Nuevo</div>' : ''}
+        ${!estaAgotado && estado === 'destacado' ? '<div class="product-badge" style="background:var(--accent-light);color:var(--dark-accent);">Destacado</div>' : ''}
+        ${imgURL
+          ? `<img src="${imgURL}" alt="${nombre}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+          : `<span style="font-size:3rem;">👔</span>`}
+        ${estaAgotado ? '<div style="position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;">Agotado</div>' : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${cat}</div>
+        <div class="product-name">${nombre}</div>
+        <div class="product-desc">${desc}</div>
+        <div class="product-footer">
+          <div class="product-price">$${Number(precio).toLocaleString('es-CO')}</div>
+          <button class="add-btn" ${estaAgotado?'disabled style="opacity:.4;cursor:not-allowed;"':''}>Agregar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function getBg(cat) {
+  const m = { superior:'linear-gradient(135deg,#e8e3da,#d4cdc0)', inferior:'linear-gradient(135deg,#dde0d8,#ccd0c5)', accesorios:'linear-gradient(135deg,#ddd8e3,#ccc6d4)', calzado:'linear-gradient(135deg,#e3dbd8,#d0c8c5)' };
+  return m[cat] || '#e8e3da';
+}
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPublicCatalog(cat);
+}
+
+// ── CATÁLOGO CRUD (admin) ──
+function renderTable(search='') {
+  const tbody = document.getElementById('crud-tbody');
+  if (!tbody) return;
+  const q = search.toLowerCase();
+  // Tras norm(), todas las claves están en PascalCase
+  const prods = DB.productos.filter(p =>
+    (p.Activo === true || p.Activo === 1) && (
+      (p.NombreProducto||'').toLowerCase().includes(q) ||
+      (p.Categoria||'').toLowerCase().includes(q) ||
+      (p.FichaT_Ref||'').toLowerCase().includes(q)
+    )
+  );
+  if (!prods.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="crud-empty">No se encontraron prendas. Usa "+ Agregar Prenda" para crear la primera.</td></tr>`;
+    return;
+  }
+  const sMap = { nuevo:'tag-nuevo', destacado:'tag-destacado', agotado:'tag-agotado' };
+  tbody.innerHTML = prods.map(p => {
+    const invTotal = DB.inventario
+      .filter(i => i.ProductoID === p.ProductoID)
+      .reduce((a, i) => a + (i.StockDisponible || 0), 0);
+    const imgThumb = p.ImagenURL
+      ? `<img src="${p.ImagenURL}" style="width:40px;height:40px;object-fit:cover;border-radius:2px;">`
+      : `<div style="width:40px;height:40px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:1.3rem;border-radius:2px;">👔</div>`;
+    const estadoKey = (p.Estado||'').toLowerCase();
+    return `<tr>
+      <td>${imgThumb}</td>
+      <td><strong style="font-size:.88rem;">${p.NombreProducto}</strong><br/><span style="font-size:.72rem;color:var(--mid-gray);">${p.FichaT_Ref||''} · ${p.Material||''}</span></td>
+      <td><span class="tag tag-cat">${p.Categoria||'—'}</span></td>
+      <td style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;">$${Number(p.PrecioBase||0).toLocaleString('es-CO')}</td>
+      <td style="color:${invTotal===0?'#c04040':invTotal<10?'#b8760a':'var(--mid-gray)'};">${invTotal} uds</td>
+      <td><span class="tag ${sMap[estadoKey]||''}">${p.Estado||'—'}</span></td>
+      <td><button class="action-btn" onclick="editProducto(${p.ProductoID})">✎ Editar</button><button class="action-btn danger" onclick="confirmDelete(${p.ProductoID})">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── MODAL PRODUCTO (con imagen) ──
+function openModal(id=null) {
+  editingId = id;
+  const p = id ? DB.productos.find(x=>x.ProductoID===id) : null;
+  document.getElementById('modal-title').textContent = id ? 'Editar Prenda' : 'Nueva Prenda';
+  document.getElementById('f-name').value   = p?.NombreProducto||'';
+  document.getElementById('f-cat').value    = p?.Categoria||'superior';
+  document.getElementById('f-price').value  = p?.PrecioBase||'';
+  document.getElementById('f-ref').value    = p?.FichaT_Ref||'';
+  document.getElementById('f-linea').value  = p?.Linea||'';
+  document.getElementById('f-material').value = p?.Material||'';
+  document.getElementById('f-sizes').value  = p?.Tallas||'';
+  document.getElementById('f-color').value  = p?.ColorPrincipal||'';
+  document.getElementById('f-status').value = p?.Estado||'nuevo';
+  document.getElementById('f-desc').value   = p?.Descripcion||'';
+  const preview = document.getElementById('img-preview');
+  if (p?.ImagenURL) {
+    preview.src = p.ImagenURL;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+    preview.src = '';
+  }
+  document.getElementById('product-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('product-modal').classList.remove('open');
+  editingId = null;
+}
+
+function handleImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  // Validar tipo y tamaño
+  if (!file.type.startsWith('image/')) { showToast('Solo se permiten imágenes.'); return; }
+  if (file.size > 5*1024*1024) { showToast('La imagen no puede superar 5MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const preview = document.getElementById('img-preview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    // En producción: subir al servidor con fetch(FormData) → guardar en /images/productos/
+    // y recibir la URL resultante para guardar en ImagenURL de la BD.
+    // Aquí guardamos el base64 para la demo.
+    document.getElementById('f-img-url').value = e.target.result;
+    showToast('Imagen cargada. Se guardará con el producto.');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImage() {
+  document.getElementById('img-preview').style.display = 'none';
+  document.getElementById('img-preview').src = '';
+  document.getElementById('f-img-url').value = '';
+  document.getElementById('f-img-file').value = '';
+}
+
+async function saveProduct() {
+  const name  = document.getElementById('f-name').value.trim();
+  const price = parseInt(document.getElementById('f-price').value);
+  if (!name || isNaN(price)) { showToast('Completa nombre y precio.'); return; }
+  const data = {
+    ProductoID: editingId||0,
+    NombreProducto: name,
+    PrecioBase: price,
+    Categoria:   document.getElementById('f-cat').value,
+    FichaT_Ref:  document.getElementById('f-ref').value,
+    Linea:       document.getElementById('f-linea').value,
+    Material:    document.getElementById('f-material').value,
+    Tallas:      document.getElementById('f-sizes').value,
+    ColorPrincipal: document.getElementById('f-color').value,
+    Estado:      document.getElementById('f-status').value,
+    Descripcion: document.getElementById('f-desc').value,
+    ImagenURL:   document.getElementById('f-img-url').value,
+    Activo: true,
+  };
+  let result;
+  if (editingId) {
+    result = await apiFetch(`/productos/${editingId}`, { method:'PUT', body: JSON.stringify(data) });
+  } else {
+    result = await apiFetch('/productos', { method:'POST', body: JSON.stringify(data) });
+  }
+  if (result) {
+    // Recargar desde la BD para garantizar que lo que guardamos aparece correctamente
+    await refreshProductos();
+    showToast(editingId ? 'Prenda actualizada en base de datos.' : 'Prenda creada en base de datos.');
+    closeModal();
+    renderTable('');
+    renderPublicCatalog();
+    if (currentAdminTab==='dashboard') renderDashboard();
+  }
+}
+function editProducto(id) { openModal(id); }
+function confirmDelete(id) {
+  deleteTargetId = id;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('confirm-delete-btn');
+  if (btn) btn.onclick = async function() {
+    const result = await apiFetch(`/productos/${deleteTargetId}`, { method:'DELETE' });
+    if (result) {
+      await refreshProductos();
+      document.getElementById('confirm-modal').classList.remove('open');
+      renderTable(''); renderPublicCatalog();
+      if (currentAdminTab==='dashboard') renderDashboard();
+      showToast('Prenda eliminada de la base de datos.');
+    }
+  };
+});
+
+// ── DASHBOARD (datos en vivo de la API) ──
+async function renderDashboard() {
+  // Recargar inventario para alertas actualizadas
+  const [res, invData] = await Promise.all([
+    apiFetch('/dashboard/resumen'),
+    apiFetch('/inventario'),
+  ]);
+  if (invData) DB.inventario = normArr(invData);
+  if (!res) return;
+  const r = norm(res); // normalizar para tener PascalCase
+  const kpiGrid = document.getElementById('db-kpi-row');
+  if (kpiGrid) {
+    const te = r.TotalEmpresas||0, tp = r.TotalProveedores||0, tb = r.TotalBancos||0;
+    kpiGrid.innerHTML = `
+      <div class="exec-kpi-card"><div class="exec-kpi-label">Total Productos</div><div class="exec-kpi-val">${r.TotalProductos||0}</div><div class="exec-kpi-delta neu">Activos en catálogo</div></div>
+      <div class="exec-kpi-card ekc-green"><div class="exec-kpi-label">Unidades en Stock</div><div class="exec-kpi-val">${(r.UnidadesEnInventario||0).toLocaleString('es-CO')}</div><div class="exec-kpi-delta up">En inventario</div></div>
+      <div class="exec-kpi-card ekc-gold"><div class="exec-kpi-label">Valor Inventario</div><div class="exec-kpi-val">$${((r.ValorTotalInventario||0)/1000000).toFixed(1)}M</div><div class="exec-kpi-delta neu">COP estimado</div></div>
+      <div class="exec-kpi-card ekc-blue"><div class="exec-kpi-label">Empleados Activos</div><div class="exec-kpi-val">${r.TotalEmpleados||0}</div><div class="exec-kpi-delta neu">Nómina: $${((r.NominaMensualTotal||0)/1000000).toFixed(1)}M/mes</div></div>
+      <div class="exec-kpi-card ekc-red"><div class="exec-kpi-label">Terceros</div><div class="exec-kpi-val">${te+tp+tb}</div><div class="exec-kpi-delta neu">${te} emp · ${tp} prov · ${tb} bancos</div></div>
+    `;
+  }
+  const alertBody = document.getElementById('db-alerta-tbody');
+  if (alertBody) {
+    // Alertas: stock actual <= mínimo
+    const alertas = DB.inventario.filter(i => (i.StockDisponible||0) <= (i.StockMinimo||10));
+    alertBody.innerHTML = alertas.slice(0, 8).map(i => {
+      const stock = i.StockDisponible || 0;
+      const nombre = i.NombreProducto || '—';
+      return `<tr>
+        <td>${nombre}</td>
+        <td>${i.Talla||'—'}</td>
+        <td style="color:${stock===0?'#c04040':'#b8760a'};">${stock}</td>
+        <td><span class="exec-badge-tag ${stock===0?'agotado':''}">${i.Estado||'Bajo'}</span></td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="4" class="crud-empty">Sin alertas de stock.</td></tr>';
+  }
+}
+
+// ── INVENTARIO ──
+function renderInventario(search='') {
+  const tbody = document.getElementById('inv-tbody');
+  if (!tbody) return;
+  const q = search.toLowerCase();
+  const rows = DB.inventario.filter(i => {
+    return (i.NombreProducto||'').toLowerCase().includes(q) ||
+           (i.Talla||'').toLowerCase().includes(q) ||
+           (i.Color||'').toLowerCase().includes(q);
+  });
+  if (!rows.length) { tbody.innerHTML=`<tr><td colspan="9" class="crud-empty">Sin registros en inventario.</td></tr>`; return; }
+  tbody.innerHTML = rows.map(i => {
+    const stock = i.StockDisponible||0, smin = i.StockMinimo||0, smax = i.StockMaximo||0;
+    const pventa = i.PrecioVenta||0;
+    const estadoKey = (i.Estado||'').toLowerCase();
+    return `<tr>
+      <td style="font-size:.75rem;color:var(--mid-gray);">#${i.InvID}</td>
+      <td><strong style="font-size:.85rem;">${i.NombreProducto||'—'}</strong><br><span style="font-size:.7rem;color:var(--mid-gray);">${i.Referencia||'—'}</span></td>
+      <td>${i.Talla||'—'}</td>
+      <td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${colorDot(i.Color||'')};margin-right:.4rem;vertical-align:middle;"></span>${i.Color||'—'}</td>
+      <td style="color:${stock===0?'#c04040':stock<=smin?'#b8760a':'var(--mid-gray)'};">${stock}</td>
+      <td style="color:var(--mid-gray);">${smin}/${smax}</td>
+      <td style="font-family:'Cormorant Garamond',serif;">$${Number(pventa).toLocaleString('es-CO')}</td>
+      <td><span class="exec-badge-tag ${estadoKey==='agotado'?'agotado':stock>0&&stock<=smin?'dest':'nuevo'}" style="${stock>0&&stock<=smin?'background:#fef3e2;color:#8b5e1a':''}">${i.Estado||'—'}</span></td>
+      <td><button class="action-btn" onclick="editInventario(${i.InvID})">✎</button></td>
+    </tr>`;
+  }).join('');
+}
+function colorDot(color) {
+  const m = {'Negro':'#111','Blanco':'#f5f5f5','Gris':'#999','Beige':'#d4b896','Azul':'#4a7fb5','Verde':'#4a9e6a','Rojo':'#c04040','Multicolor':'linear-gradient(90deg,#c04040,#4a7fb5,#4a9e6a)'};
+  return m[color]||'#ccc';
+}
+function editInventario(id) {
+  const i = DB.inventario.find(x => x.InvID === id);
+  if (!i) return;
+  editingInventarioId = id;
+  const prod = DB.productos.find(p => p.ProductoID === i.ProductoID);
+  document.getElementById('inv-modal-title').textContent = 'Editar Inventario';
+  document.getElementById('inv-f-productoID').value = i.ProductoID;
+  document.getElementById('inv-f-productoNombre').textContent = prod?.NombreProducto || '';
+  document.getElementById('inv-f-talla').value   = i.Talla || '';
+  document.getElementById('inv-f-color').value   = i.Color || '';
+  document.getElementById('inv-f-stock').value   = i.StockDisponible || 0;
+  document.getElementById('inv-f-smin').value    = i.StockMinimo || 0;
+  document.getElementById('inv-f-smax').value    = i.StockMaximo || 0;
+  document.getElementById('inv-f-costo').value   = i.CostoUnitario || 0;
+  document.getElementById('inv-f-pventa').value  = i.PrecioVenta || 0;
+  document.getElementById('inv-f-ubicacion').value = i.Ubicacion || '';
+  document.getElementById('inv-modal').classList.add('open');
+}
+function closeInvModal() {
+  document.getElementById('inv-modal').classList.remove('open');
+  editingInventarioId = null;
+}
+async function saveInventario() {
+  const stock = parseInt(document.getElementById('inv-f-stock').value);
+  const pventa = parseFloat(document.getElementById('inv-f-pventa').value);
+  if (isNaN(stock)||isNaN(pventa)) { showToast('Completa los campos requeridos.'); return; }
+  if (editingInventarioId) {
+    // Actualizar stock en la API real
+    const result = await apiFetch(`/inventario/${editingInventarioId}/stock`, {
+      method: 'PUT',
+      body: JSON.stringify({ stock })
+    });
+    if (result) {
+      const idx = DB.inventario.findIndex(i=>(i.InvID||i.invID)===editingInventarioId);
+      if (idx>=0) {
+        const smin = parseInt(document.getElementById('inv-f-smin').value)||10;
+        DB.inventario[idx] = {
+          ...DB.inventario[idx],
+          Talla: document.getElementById('inv-f-talla').value,
+          Color: document.getElementById('inv-f-color').value,
+          StockDisponible: stock,
+          StockMinimo: smin,
+          StockMaximo: parseInt(document.getElementById('inv-f-smax').value)||50,
+          CostoUnitario: parseFloat(document.getElementById('inv-f-costo').value)||0,
+          PrecioVenta: pventa,
+          Ubicacion: document.getElementById('inv-f-ubicacion').value,
+          Estado: stock===0?'Agotado':stock<=smin?'Stock bajo':'Disponible',
+        };
+      }
+      closeInvModal();
+      renderInventario('');
+      showToast('Inventario actualizado en base de datos.');
+    }
+  }
+}
+
+// ── EMPLEADOS ──
+function renderEmpleados(search='') {
+  const tbody = document.getElementById('emp-tbody');
+  if (!tbody) return;
+  const q = search.toLowerCase();
+  const emps = DB.empleados.filter(e=>{
+    const activo=e.activo||e.Activo;
+    const nombre=(e.NombreEmpleado||e.nombreEmpleado||'').toLowerCase();
+    const cargo=(e.Cargo||e.cargo||'').toLowerCase();
+    return activo&&(nombre.includes(q)||cargo.includes(q));
+  });
+  if (!emps.length) { tbody.innerHTML=`<tr><td colspan="7" class="crud-empty">No se encontraron empleados.</td></tr>`; return; }
+  tbody.innerHTML = emps.map(e => {
+    const eid=e.EmpleadoID||e.empleadoID, nombre=e.NombreEmpleado||e.nombreEmpleado||'', doc=e.NoDocumento||e.noDocumento||'';
+    const cargo=e.Cargo||e.cargo||'', contrato=e.TipoContrato||e.tipoContrato||'';
+    const salario=e.SalarioBasico||e.salarioBasico||0, fotoURL=e.FotoURL||e.fotoURL||'';
+    const nivel = salario<2000000?'Nivel 1':salario<4000000?'Nivel 2':salario<6000000?'Nivel 3':'Nivel 4';
+    const foto = fotoURL ? `<img src="${fotoURL}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">` : `<div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:.85rem;">${nombre.charAt(0)}</div>`;
+    return `<tr>
+      <td>${foto}</td>
+      <td><strong style="font-size:.88rem;">${nombre}</strong><br><span style="font-size:.72rem;color:var(--mid-gray);">${doc}</span></td>
+      <td>${cargo}</td>
+      <td><span class="tag tag-cat">${contrato}</span></td>
+      <td style="font-family:'Cormorant Garamond',serif;">$${salario.toLocaleString('es-CO')}</td>
+      <td><span style="font-size:.72rem;color:var(--mid-gray);">${nivel}</span></td>
+      <td><button class="action-btn" onclick="editEmpleado(${eid})">✎ Editar</button></td>
+    </tr>`;
+  }).join('');
+}
+function editEmpleado(id) {
+  const e = DB.empleados.find(x=>(x.EmpleadoID||x.empleadoID)===id);
+  if (!e) return;
+  editingEmpleadoId = id;
+  document.getElementById('emp-f-nombre').value  = e.NombreEmpleado||e.nombreEmpleado||'';
+  document.getElementById('emp-f-doc').value     = e.NoDocumento||e.noDocumento||'';
+  document.getElementById('emp-f-cargo').value   = e.Cargo||e.cargo||'';
+  document.getElementById('emp-f-contrato').value= e.TipoContrato||e.tipoContrato||'';
+  document.getElementById('emp-f-salario').value = e.SalarioBasico||e.salarioBasico||0;
+  document.getElementById('emp-f-tel').value     = e.Telefono||e.telefono||'';
+  document.getElementById('emp-f-ciudad').value  = e.Direccion_Ciudad||e.direccionCiudad||'';
+  document.getElementById('emp-f-cuenta').value  = e.NoCuentaBancaria||e.noCuentaBancaria||'';
+  const prev = document.getElementById('emp-img-preview');
+  const fotoURL = e.FotoURL||e.fotoURL||'';
+  if (fotoURL) { prev.src=fotoURL; prev.style.display='block'; } else { prev.style.display='none'; }
+  document.getElementById('emp-modal').classList.add('open');
+}
+function closeEmpModal() { document.getElementById('emp-modal').classList.remove('open'); editingEmpleadoId=null; }
+function handleEmpFotoUpload(input) {
+  const file = input.files[0];
+  if (!file||!file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('emp-img-preview');
+    prev.src = e.target.result; prev.style.display='block';
+    document.getElementById('emp-f-foto-url').value = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+async function saveEmpleado() {
+  if (!editingEmpleadoId) return;
+  const idx = DB.empleados.findIndex(e=>(e.EmpleadoID||e.empleadoID)===editingEmpleadoId);
+  const updated = {
+    ...DB.empleados[idx],
+    NombreEmpleado: document.getElementById('emp-f-nombre').value,
+    NoDocumento: document.getElementById('emp-f-doc').value,
+    Cargo: document.getElementById('emp-f-cargo').value,
+    TipoContrato: document.getElementById('emp-f-contrato').value,
+    SalarioBasico: parseInt(document.getElementById('emp-f-salario').value)||0,
+    Telefono: document.getElementById('emp-f-tel').value,
+    Direccion_Ciudad: document.getElementById('emp-f-ciudad').value,
+    NoCuentaBancaria: document.getElementById('emp-f-cuenta').value,
+    FotoURL: document.getElementById('emp-f-foto-url').value||DB.empleados[idx]?.FotoURL||'',
+  };
+  const result = await apiFetch(`/empleados/${editingEmpleadoId}`, { method:'PUT', body: JSON.stringify(updated) });
+  if (result) {
+    DB.empleados[idx] = updated;
+    closeEmpModal();
+    renderEmpleados('');
+    showToast('Empleado actualizado en base de datos.');
+  }
+}
+
+// ── TERCEROS (Empresas, Proveedores, Bancos) ──
+function renderTerceros(tipo='empresas') {
+  currentTerceroType = tipo;
+  document.querySelectorAll('.tercero-tab').forEach(t=>t.classList.remove('active'));
+  const activeTab = document.getElementById('terc-tab-'+tipo);
+  if (activeTab) activeTab.classList.add('active');
+
+  const tbody = document.getElementById('terc-tbody');
+  if (!tbody) return;
+  let data, cols, idKey, nameKey;
+  if (tipo==='empresas')    { data=DB.empresas;    idKey='EmpresaID';    nameKey='Nombre'; }
+  if (tipo==='proveedores') { data=DB.proveedores; idKey='ProveedorID';  nameKey='Nombre'; }
+  if (tipo==='bancos')      { data=DB.bancos;      idKey='BancoID';      nameKey='Nombre'; }
+
+  const active = data.filter(x=>x.activo||x.Activo);
+  if (!active.length) { tbody.innerHTML=`<tr><td colspan="7" class="crud-empty">Sin registros.</td></tr>`; return; }
+  tbody.innerHTML = active.map(r=>`
+    <tr>
+      <td><strong style="font-size:.88rem;">${r.Nombre||r.nombre||''}</strong></td>
+      <td style="font-size:.78rem;color:var(--mid-gray);">${r.NIT||r.nit||''}</td>
+      <td style="font-size:.78rem;">${r.TipoRegimen||r.tipoRegimen||'—'}</td>
+      <td style="font-size:.78rem;">${r.Ciudad||r.ciudad||'—'}</td>
+      <td style="font-size:.78rem;"><a href="mailto:${r.Correo||r.correo||''}" style="color:var(--accent);text-decoration:none;">${r.Correo||r.correo||'—'}</a></td>
+      <td style="font-size:.78rem;">${r.Telefono||r.telefono||'—'}</td>
+      <td><button class="action-btn" onclick="editTercero('${tipo}',${r[idKey]||r[idKey.toLowerCase()]})">✎</button></td>
+    </tr>`).join('');
+}
+function editTercero(tipo, id) {
+  let r;
+  if (tipo==='empresas')    r = DB.empresas.find(x=>x.EmpresaID===id);
+  if (tipo==='proveedores') r = DB.proveedores.find(x=>x.ProveedorID===id);
+  if (tipo==='bancos')      r = DB.bancos.find(x=>x.BancoID===id);
+  if (!r) return;
+  editingTerceroId = {tipo, id};
+  document.getElementById('terc-f-nombre').value  = r.Nombre;
+  document.getElementById('terc-f-nit').value     = r.NIT;
+  document.getElementById('terc-f-razon').value   = r.RazonSocial_TipoSociedad||'';
+  document.getElementById('terc-f-regimen').value = r.TipoRegimen||'';
+  document.getElementById('terc-f-dir').value     = r.Direccion||'';
+  document.getElementById('terc-f-ciudad').value  = r.Ciudad||'';
+  document.getElementById('terc-f-correo').value  = r.Correo||'';
+  document.getElementById('terc-f-tel').value     = r.Telefono||'';
+  document.getElementById('terc-modal-title').textContent = `Editar ${tipo==='empresas'?'Empresa':tipo==='proveedores'?'Proveedor':'Banco'}`;
+  document.getElementById('terc-modal').classList.add('open');
+}
+function closeTercModal() { document.getElementById('terc-modal').classList.remove('open'); editingTerceroId=null; }
+function saveTercero() {
+  if (!editingTerceroId) return;
+  const {tipo,id} = editingTerceroId;
+  let arr, idKey;
+  if (tipo==='empresas')    { arr=DB.empresas;    idKey='EmpresaID'; }
+  if (tipo==='proveedores') { arr=DB.proveedores; idKey='ProveedorID'; }
+  if (tipo==='bancos')      { arr=DB.bancos;      idKey='BancoID'; }
+  const idx = arr.findIndex(x=>x[idKey]===id);
+  arr[idx] = {
+    ...arr[idx],
+    Nombre: document.getElementById('terc-f-nombre').value,
+    NIT: document.getElementById('terc-f-nit').value,
+    RazonSocial_TipoSociedad: document.getElementById('terc-f-razon').value,
+    TipoRegimen: document.getElementById('terc-f-regimen').value,
+    Direccion: document.getElementById('terc-f-dir').value,
+    Ciudad: document.getElementById('terc-f-ciudad').value,
+    Correo: document.getElementById('terc-f-correo').value,
+    Telefono: document.getElementById('terc-f-tel').value,
+  };
+  closeTercModal();
+  renderTerceros(tipo);
+  showToast('Registro actualizado en base de datos.');
+}
+
+// ── CONFIGURACIÓN / MIGRACIÓN ──
+function renderConfiguracion() {
+  const el = document.getElementById('tab-configuracion');
+  if (el) el.style.display='block';
+}
+function copiarSQL() {
+  navigator.clipboard.writeText(SQL_MIGRATION).then(()=>showToast('Script SQL copiado al portapapeles.'));
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+// ── INIT ──
+(async () => {
+  // Cargar productos e inventario para el catálogo público (sin login)
+  const [prods, inv] = await Promise.all([
+    apiFetch('/productos'),
+    apiFetch('/inventario'),
+  ]);
+  if (prods) DB.productos  = normArr(prods);
+  if (inv)   DB.inventario = normArr(inv);
+  renderPublicCatalog();
+})();
+</script>
+
+<!-- Chart.js para el Dashboard Ejecutivo -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function() {
+  const ACC = '#8b7355', DARK = '#3d3028', LGRAY = '#c8c4bc', ACC2 = '#c4a882';
+  function initExecCharts() {
+    const cv = document.getElementById('chartVentas');
+    const cc = document.getElementById('chartCanal');
+    const cn = document.getElementById('chartNomina');
+    if (!cv || !cc || !cn) return;
+    if (cv._init) return;
+    cv._init = true;
+    new Chart(cv, {
+      type:'line',
+      data:{
+        labels:['Ene','Feb','Mar','Abr','May','Jun'],
+        datasets:[
+          {label:'2025',data:[55,58,68,72,78,85],borderColor:ACC,backgroundColor:'rgba(139,115,85,.08)',borderWidth:2,pointBackgroundColor:ACC,pointRadius:4,tension:.35,fill:true},
+          {label:'2024',data:[46,49,57,60,66,72],borderColor:LGRAY,backgroundColor:'transparent',borderWidth:1.5,borderDash:[5,4],pointBackgroundColor:LGRAY,pointRadius:3,tension:.35,fill:false}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.raw+'M COP'}}},
+        scales:{
+          x:{grid:{display:false},ticks:{font:{size:11},color:'#5a5a5a'},border:{display:false}},
+          y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:11},color:'#5a5a5a',callback:v=>'$'+v+'M'},border:{display:false}}
+        }
+      }
+    });
+    new Chart(cc, {
+      type:'doughnut',
+      data:{
+        labels:['Tienda Física','E-commerce','WhatsApp','Mayorista','Instagram'],
+        datasets:[{data:[42,28,15,10,5],backgroundColor:[DARK,ACC,ACC2,LGRAY,'#e8e3da'],borderWidth:0,hoverOffset:4}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,cutout:'65%',
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+'%'}}}
+      }
+    });
+    new Chart(cn, {
+      type:'bar',
+      data:{
+        labels:['Operativo','Técnico','Profesional','Directivo'],
+        datasets:[{data:[14,8,4,4],backgroundColor:[LGRAY,ACC2,ACC,DARK],borderWidth:0,borderRadius:2}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{display:false},ticks:{font:{size:10},color:'#5a5a5a'},border:{display:false}},
+          y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},color:'#5a5a5a',stepSize:5},border:{display:false},max:18}
+        }
+      }
+    });
+  }
+
+  // Patch adminTab to init charts when Dashboard tab is shown
+  const _adminTab = window.adminTab;
+  window.adminTab = function(tab, el) {
+    _adminTab(tab, el);
+    if (tab === 'dashboard') setTimeout(initExecCharts, 60);
+  };
+
+  // Patch showAdmin to init charts on login
+  const _showAdmin = window.showAdmin;
+  window.showAdmin = function() {
+    _showAdmin();
+    setTimeout(initExecCharts, 120);
+  };
+})();
+</script>
+</body></html>
